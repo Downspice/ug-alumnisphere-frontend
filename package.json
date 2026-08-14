@@ -2,6 +2,7 @@
   "name": "ug-alumnisphere-frontend",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -40,13 +41,5 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vercel": "^58.11.0"
-  },
-  "packageManager": "pnpm@11.18.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@apollo/protobufjs",
-      "esbuild",
-      "unrs-resolver"
-    ]
   }
 }
