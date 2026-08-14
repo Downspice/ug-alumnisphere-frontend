@@ -120,14 +120,16 @@ export function MasterFormShowcase() {
                 Restrained dark UI with live Zod validation and auto-type conversion.
               </p>
             </div>
-            <button
+            <Button
               type="button"
+              variant="outline"
+              size="sm"
               onClick={handleReset}
-              className="inline-flex items-center gap-1.5 text-xs text-[#c2c2c2] hover:text-white px-3 py-1.5 rounded-full border border-[#e5e5e5]/15 hover:border-[#e5e5e5]/30 transition-colors"
+              className="gap-1.5"
             >
               <RotateCcw className="size-3 text-[#686868]" />
               Reset Defaults
-            </button>
+            </Button>
           </div>
 
           <Form {...form}>
@@ -373,13 +375,9 @@ export function MasterFormShowcase() {
                   <CheckCircle2 className="size-4 mr-1.5" />
                   Validate & Submit Form
                 </Button>
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="inline-flex items-center text-xs text-[#c2c2c2] hover:text-white px-4 py-2 rounded-full border border-[#e5e5e5]/15 hover:border-[#e5e5e5]/30 transition-colors"
-                >
+                <Button type="button" variant="outline" onClick={handleReset}>
                   Reset
-                </button>
+                </Button>
               </div>
             </form>
           </Form>

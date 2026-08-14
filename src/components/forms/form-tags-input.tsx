@@ -1,24 +1,24 @@
 "use client";
 
-import * as React from "react";
+import React, { useState, KeyboardEvent } from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 import {
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { X, Plus } from "lucide-react";
-import { cn } from "@/lib/utils";
 
-export interface FormTagsInputProps<
+interface FormTagsInputProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > {
-  control?: Control<TFieldValues>;
+  control: Control<TFieldValues>;
   name: TName;
   label?: string;
   description?: string;
@@ -35,14 +35,14 @@ export function FormTagsInput<
   name,
   label,
   description,
-  placeholder = "Type tag & press Enter...",
+  placeholder = "Add a tag and press Enter...",
   maxTags = 10,
   containerClassName,
 }: FormTagsInputProps<TFieldValues, TName>) {
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
 
   return (
-    <FormField<TFieldValues, TName>
+    <FormField
       control={control}
       name={name}
       render={({ field }) => {
@@ -57,10 +57,10 @@ export function FormTagsInput<
         };
 
         const removeTag = (tagToRemove: string) => {
-          field.onChange(tags.filter((t) => t !== tagToRemove));
+          field.onChange(tags.filter((tag) => tag !== tagToRemove));
         };
 
-        const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter" || e.key === ",") {
             e.preventDefault();
             addTag();
@@ -73,12 +73,12 @@ export function FormTagsInput<
           <FormItem className={containerClassName}>
             <div className="flex items-center justify-between">
               {label && <FormLabel>{label}</FormLabel>}
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-[11px] text-[#686868]">
                 {tags.length} / {maxTags} tags
               </span>
             </div>
             <FormControl>
-              <div className="min-h-[42px] w-full rounded-md border border-input bg-background p-1.5 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1 flex flex-wrap gap-1.5 items-center">
+              <div className="min-h-[42px] w-full rounded-[10px] border border-[#e5e5e5]/14 bg-[#161616] p-1.5 focus-within:border-[#6b62f2] focus-within:ring-1 focus-within:ring-[#6b62f2]/40 flex flex-wrap gap-1.5 items-center">
                 {tags.map((tag) => (
                   <Badge
                     key={tag}
@@ -86,14 +86,17 @@ export function FormTagsInput<
                     className="gap-1 pr-1 text-xs py-0.5"
                   >
                     <span>{tag}</span>
-                    <button
+                    <Button
                       type="button"
+                      variant="ghost"
+                      size="icon-xs"
                       onClick={() => removeTag(tag)}
-                      className="rounded-full hover:bg-muted-foreground/20 p-0.5"
+                      className="size-4 p-0 hover:bg-white/20"
                       tabIndex={-1}
+                      aria-label={`Remove tag ${tag}`}
                     >
-                      <X className="size-3" />
-                    </button>
+                      <X className="size-2.5" />
+                    </Button>
                   </Badge>
                 ))}
 
@@ -106,16 +109,18 @@ export function FormTagsInput<
                       onKeyDown={handleKeyDown}
                       onBlur={addTag}
                       placeholder={tags.length === 0 ? placeholder : "Add more..."}
-                      className="w-full bg-transparent text-sm outline-none px-1 placeholder:text-muted-foreground"
+                      className="w-full bg-transparent text-sm text-[#ededed] outline-none px-1 placeholder:text-[#686868]"
                     />
                     {inputValue && (
-                      <button
+                      <Button
                         type="button"
+                        variant="ghost"
+                        size="icon-xs"
                         onClick={addTag}
-                        className="text-primary hover:text-primary/80 text-xs flex items-center shrink-0 pr-1"
+                        className="text-white hover:text-white/80 p-0 size-5 shrink-0"
                       >
                         <Plus className="size-3.5" />
-                      </button>
+                      </Button>
                     )}
                   </div>
                 )}

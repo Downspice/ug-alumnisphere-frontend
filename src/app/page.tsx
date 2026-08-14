@@ -426,14 +426,16 @@ export default function Home() {
 
                         <div className="flex justify-between items-center pt-2 border-t border-[#e5e5e5]/10 text-xs text-[#686868]">
                           <span>ID: {exam.id.slice(-6)}</span>
-                          <button
+                          <Button
                             type="button"
-                            className="text-[#c2c2c2] hover:text-red-400 p-1 transition-colors"
+                            variant="ghost"
+                            size="icon-xs"
+                            className="text-[#c2c2c2] hover:text-red-400"
                             onClick={() => deleteExam(exam.id)}
                             aria-label="Delete exam"
                           >
                             <Trash2 className="size-3.5" />
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>

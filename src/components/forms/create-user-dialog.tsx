@@ -56,13 +56,10 @@ export function CreateUserDialog({ onSuccess }: CreateUserDialogProps) {
       }
       description="Validates user details and roles. Transforms to bottom drawer on mobile viewports."
       trigger={
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 text-xs text-[#ededed] hover:text-white px-4 py-2 rounded-full border border-[#e5e5e5]/15 hover:border-[#e5e5e5]/30 bg-white/5 transition-colors"
-        >
+        <Button type="button" variant="outline" className="bg-white/5">
           <Plus className="size-3.5" />
           New User
-        </button>
+        </Button>
       }
     >
       <Form {...form}>
@@ -92,13 +89,9 @@ export function CreateUserDialog({ onSuccess }: CreateUserDialogProps) {
           />
 
           <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4 border-t border-[#e5e5e5]/10">
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="inline-flex items-center justify-center text-xs text-[#c2c2c2] hover:text-white px-4 py-2 rounded-full border border-[#e5e5e5]/15 hover:border-[#e5e5e5]/30 transition-colors"
-            >
+            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
-            </button>
+            </Button>
             <Button
               type="submit"
               disabled={loading}
