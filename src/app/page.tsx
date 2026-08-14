@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EmptyState } from "@/components/ui/empty-state";
+import { LoadingState } from "@/components/ui/loading-state";
+import { ErrorState } from "@/components/ui/error-state";
 import {
   CreateExamDialog,
   CreateUserDialog,
@@ -48,9 +51,19 @@ export default function Home() {
     refetch: refetchHealth,
   } = useHealth();
 
-  const { exams, loading: examsLoading, refetch: refetchExams } = useExams();
+  const {
+    exams,
+    loading: examsLoading,
+    error: examsError,
+    refetch: refetchExams,
+  } = useExams();
 
-  const { users, loading: usersLoading, refetch: refetchUsers } = useUsers();
+  const {
+    users,
+    loading: usersLoading,
+    error: usersError,
+    refetch: refetchUsers,
+  } = useUsers();
 
   const { deleteExam } = useDeleteExam();
 
@@ -371,9 +384,18 @@ export default function Home() {
             {/* Exams Tab */}
             <TabsContent value="exams" className="space-y-4">
               {examsLoading ? (
-                <div className="text-center py-16 text-[#686868] text-xs">
-                  Loading exams via useExams() hook...
-                </div>
+                <LoadingState
+                  message="Fetching exams from GraphQL API..."
+                  count={3}
+                  variant="cards"
+                />
+              ) : examsError ? (
+                <ErrorState
+                  title="Failed to Load Exams"
+                  message={examsError}
+                  onRetry={() => refetchExams()}
+                  retryLabel="Retry Query"
+                />
               ) : exams.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {exams.map((exam, index) => (
@@ -430,7 +452,7 @@ export default function Home() {
                             type="button"
                             variant="ghost"
                             size="icon-xs"
-                            className="text-[#c2c2c2] hover:text-red-400"
+                            className="text-[#c2c2c2] hover:text-red-400 cursor-pointer"
                             onClick={() => deleteExam(exam.id)}
                             aria-label="Delete exam"
                           >
@@ -442,25 +464,31 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <div className="frosted-glass-card p-12 text-center space-y-3">
-                  <BookOpen className="size-8 mx-auto text-[#686868]" />
-                  <div className="text-sm font-medium text-[#ededed]">
-                    No exams created yet
-                  </div>
-                  <p className="text-xs text-[#c2c2c2] max-w-sm mx-auto">
-                    Click &quot;New Exam&quot; above to create a test using the responsive
-                    form modal.
-                  </p>
-                </div>
+                <EmptyState
+                  title="No Exams Created Yet"
+                  description="Your repository does not have any active or draft exams. Create your first assessment using the responsive modal form."
+                  presetAnimation="empty"
+                  icon={BookOpen}
+                  actionElement={<CreateExamDialog onSuccess={refetchExams} />}
+                />
               )}
             </TabsContent>
 
             {/* Users Tab */}
             <TabsContent value="users" className="space-y-4">
               {usersLoading ? (
-                <div className="text-center py-16 text-[#686868] text-xs">
-                  Loading users...
-                </div>
+                <LoadingState
+                  message="Fetching registered alumni and students..."
+                  count={3}
+                  variant="cards"
+                />
+              ) : usersError ? (
+                <ErrorState
+                  title="Failed to Load Users"
+                  message={usersError}
+                  onRetry={() => refetchUsers()}
+                  retryLabel="Retry Query"
+                />
               ) : users.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {users.map((user, index) => (
@@ -491,14 +519,13 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <div className="frosted-glass-card p-12 text-center space-y-3">
-                  <Users className="size-8 mx-auto text-[#686868]" />
-                  <div className="text-sm font-medium text-[#ededed]">No users found</div>
-                  <p className="text-xs text-[#c2c2c2] max-w-sm mx-auto">
-                    Click &quot;New User&quot; above to add a student, instructor, or
-                    admin.
-                  </p>
-                </div>
+                <EmptyState
+                  title="No Users Found"
+                  description="There are currently no students, instructors, or administrators in the database. Add a user to get started."
+                  presetAnimation="empty"
+                  icon={Users}
+                  actionElement={<CreateUserDialog onSuccess={refetchUsers} />}
+                />
               )}
             </TabsContent>
 

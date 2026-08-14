@@ -10,12 +10,9 @@ import { toast } from "sonner";
  * Hook to fetch all users
  */
 export function useUsers() {
-  const { data, loading, error, refetch } = useQuery<{ users: User[] }>(
-    GET_USERS,
-    {
-      errorPolicy: "all",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery<{ users: User[] }>(GET_USERS, {
+    errorPolicy: "all",
+  });
 
   return {
     users: data?.users ?? [],

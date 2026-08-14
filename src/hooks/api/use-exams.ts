@@ -15,14 +15,11 @@ export interface UseExamsOptions {
  * Hook to fetch all exams with automatic loading, error, and refetch handling
  */
 export function useExams(options: UseExamsOptions = {}) {
-  const { data, loading, error, refetch } = useQuery<{ exams: Exam[] }>(
-    GET_EXAMS,
-    {
-      variables: { isPublished: options.isPublished },
-      pollInterval: options.pollInterval,
-      errorPolicy: "all",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery<{ exams: Exam[] }>(GET_EXAMS, {
+    variables: { isPublished: options.isPublished },
+    pollInterval: options.pollInterval,
+    errorPolicy: "all",
+  });
 
   return {
     exams: data?.exams ?? [],
@@ -37,14 +34,11 @@ export function useExams(options: UseExamsOptions = {}) {
  * Hook to fetch a single exam by ID
  */
 export function useExam(id: string) {
-  const { data, loading, error, refetch } = useQuery<{ exam: Exam | null }>(
-    GET_EXAM,
-    {
-      variables: { id },
-      skip: !id,
-      errorPolicy: "all",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery<{ exam: Exam | null }>(GET_EXAM, {
+    variables: { id },
+    skip: !id,
+    errorPolicy: "all",
+  });
 
   return {
     exam: data?.exam ?? null,
