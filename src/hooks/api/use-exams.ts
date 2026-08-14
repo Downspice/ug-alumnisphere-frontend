@@ -15,11 +15,14 @@ export interface UseExamsOptions {
  * Hook to fetch all exams with automatic loading, error, and refetch handling
  */
 export function useExams(options: UseExamsOptions = {}) {
-  const { data, loading, error, refetch } = useQuery<{ exams: Exam[] }>(GET_EXAMS, {
-    variables: { isPublished: options.isPublished },
-    pollInterval: options.pollInterval,
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ exams: Exam[] }>(
+    GET_EXAMS,
+    {
+      variables: { isPublished: options.isPublished },
+      pollInterval: options.pollInterval,
+      errorPolicy: "all",
+    }
+  );
 
   return {
     exams: data?.exams ?? [],
@@ -34,11 +37,14 @@ export function useExams(options: UseExamsOptions = {}) {
  * Hook to fetch a single exam by ID
  */
 export function useExam(id: string) {
-  const { data, loading, error, refetch } = useQuery<{ exam: Exam | null }>(GET_EXAM, {
-    variables: { id },
-    skip: !id,
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ exam: Exam | null }>(
+    GET_EXAM,
+    {
+      variables: { id },
+      skip: !id,
+      errorPolicy: "all",
+    }
+  );
 
   return {
     exam: data?.exam ?? null,
@@ -52,7 +58,10 @@ export function useExam(id: string) {
  * Hook to create a new exam with automatic toast feedback and cache update
  */
 export function useCreateExam(onSuccess?: (exam: Exam) => void) {
-  const [createExamMutation, { loading, error }] = useMutation(CREATE_EXAM, {
+  const [createExamMutation, { loading, error }] = useMutation<
+    { createExam: Exam },
+    { input: CreateExamInput }
+  >(CREATE_EXAM, {
     refetchQueries: [{ query: GET_EXAMS }],
     onCompleted: (data) => {
       if (data?.createExam) {
@@ -86,7 +95,10 @@ export function useCreateExam(onSuccess?: (exam: Exam) => void) {
  * Hook to delete an exam with automatic toast feedback and cache update
  */
 export function useDeleteExam(onSuccess?: () => void) {
-  const [deleteExamMutation, { loading, error }] = useMutation(DELETE_EXAM, {
+  const [deleteExamMutation, { loading, error }] = useMutation<
+    { deleteExam: boolean },
+    { id: string }
+  >(DELETE_EXAM, {
     refetchQueries: [{ query: GET_EXAMS }],
     onCompleted: (data) => {
       if (data?.deleteExam) {

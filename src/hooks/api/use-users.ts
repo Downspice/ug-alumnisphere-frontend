@@ -10,9 +10,12 @@ import { toast } from "sonner";
  * Hook to fetch all users
  */
 export function useUsers() {
-  const { data, loading, error, refetch } = useQuery<{ users: User[] }>(GET_USERS, {
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ users: User[] }>(
+    GET_USERS,
+    {
+      errorPolicy: "all",
+    }
+  );
 
   return {
     users: data?.users ?? [],
@@ -27,7 +30,10 @@ export function useUsers() {
  * Hook to create a new user with automatic toast feedback and cache update
  */
 export function useCreateUser(onSuccess?: (user: User) => void) {
-  const [createUserMutation, { loading, error }] = useMutation(CREATE_USER, {
+  const [createUserMutation, { loading, error }] = useMutation<
+    { createUser: User },
+    { input: CreateUserInput }
+  >(CREATE_USER, {
     refetchQueries: [{ query: GET_USERS }],
     onCompleted: (data) => {
       if (data?.createUser) {
