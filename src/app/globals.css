@@ -1,26 +1,153 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Dimension Style Reference Tokens */
+  --color-void-canvas: #0a0a0a;
+  --color-graphite: #161616;
+  --color-frosted-glass: rgba(212, 212, 212, 0.08);
+  --color-ink-black: #000000;
+  --color-snow-white: #ffffff;
+  --color-bone: #ededed;
+  --color-ash: #c2c2c2;
+  --color-slate: #686868;
+  --color-smoke: #b2b2b2;
+  --color-hairline: rgba(229, 229, 229, 0.14);
+  --color-dusk-violet: #6b62f2;
+
+  /* Font Families */
+  --font-sans: var(--font-dm-sans), "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-geist: var(--font-geist), "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-heading: var(--font-geist), "Geist", ui-sans-serif, system-ui, sans-serif;
+
+  /* Semantic UI Tokens */
+  --color-background: #0a0a0a;
+  --color-foreground: #ededed;
+  --color-card: #161616;
+  --color-card-foreground: #ededed;
+  --color-popover: #161616;
+  --color-popover-foreground: #ededed;
+  --color-primary: #ffffff;
+  --color-primary-foreground: #161616;
+  --color-secondary: #1f1f1f;
+  --color-secondary-foreground: #ededed;
+  --color-muted: #1a1a1a;
+  --color-muted-foreground: #c2c2c2;
+  --color-accent: rgba(212, 212, 212, 0.08);
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #ef4444;
+  --color-border: rgba(229, 229, 229, 0.12);
+  --color-input: rgba(229, 229, 229, 0.14);
+  --color-ring: #6b62f2;
+
+  /* Radii */
+  --radius-ui: 10px;
+  --radius-cards: 24px;
+  --radius-panels: 42px;
+  --radius-buttons: 9999px;
+  --radius: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card: #161616;
+  --card-foreground: #ededed;
+  --popover: #161616;
+  --popover-foreground: #ededed;
+  --primary: #ffffff;
+  --primary-foreground: #161616;
+  --secondary: #1f1f1f;
+  --secondary-foreground: #ededed;
+  --muted: #1a1a1a;
+  --muted-foreground: #c2c2c2;
+  --accent: rgba(212, 212, 212, 0.08);
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: rgba(229, 229, 229, 0.12);
+  --input: rgba(229, 229, 229, 0.14);
+  --ring: #6b62f2;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card: #161616;
+  --card-foreground: #ededed;
+  --popover: #161616;
+  --popover-foreground: #ededed;
+  --primary: #ffffff;
+  --primary-foreground: #161616;
+  --secondary: #1f1f1f;
+  --secondary-foreground: #ededed;
+  --muted: #1a1a1a;
+  --muted-foreground: #c2c2c2;
+  --accent: rgba(212, 212, 212, 0.08);
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: rgba(229, 229, 229, 0.12);
+  --input: rgba(229, 229, 229, 0.14);
+  --ring: #6b62f2;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom Dimension Design Classes */
+.frosted-glass-card {
+  background: rgba(212, 212, 212, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 229, 229, 0.12);
+  border-radius: 24px;
+}
+
+.frosted-floating-nav {
+  background: rgba(22, 22, 22, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 229, 229, 0.14);
+  border-radius: 9999px;
+  box-shadow:
+    rgba(255, 255, 255, 0.02) 0px 3px 4.5px,
+    rgba(0, 0, 0, 0.4) 0px 10px 18px;
+}
+
+.gradient-hero-panel {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.14) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.16) 0%, transparent 45%),
+    linear-gradient(180deg, #121212 0%, #0a0a0a 100%);
+  border: 1px solid rgba(229, 229, 229, 0.12);
+  border-radius: 24px;
+}
+
+.dusk-violet-wash {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 35%,
+    rgba(107, 98, 242, 0.4) 50%,
+    rgba(0, 0, 0, 0) 65%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  height: 1px;
 }
