@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 const STATUS_COPY: Record<string, { label: string; message: string }> = {
   unverified: {
     label: "Unverified",
-    message: "Submit alumni verification when you are ready. Students can complete a profile without it.",
+    message:
+      "Submit alumni verification when you are ready. Students can complete a profile without it.",
   },
   pending: {
     label: "Pending review",
@@ -62,7 +63,8 @@ export default function HomePage() {
           Welcome back, {user.name.split(" ")[0]}.
         </h1>
         <p className="text-sm text-[#c2c2c2] max-w-xl">
-          {user.headline || "Complete your professional profile so classmates and mentors can find you."}
+          {user.headline ||
+            "Complete your professional profile so classmates and mentors can find you."}
         </p>
         <div className="flex flex-wrap gap-2">
           <Link href="/profile" className={cn(buttonVariants())}>
@@ -110,13 +112,22 @@ export default function HomePage() {
             Jobs, mentors, events, and giving records are live.
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
-            <Link href="/jobs" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+            <Link
+              href="/jobs"
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            >
               Jobs
             </Link>
-            <Link href="/campaigns" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+            <Link
+              href="/campaigns"
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            >
               Campaigns
             </Link>
-            <Link href="/notifications" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+            <Link
+              href="/notifications"
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+            >
               Alerts
             </Link>
           </div>

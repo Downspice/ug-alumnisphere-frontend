@@ -17,8 +17,12 @@ export default function PublicProfilePage() {
   const { user } = useAuth();
   const { profile, loading, error, refetch } = usePublicProfile(params.id);
 
-  if (loading) return <LoadingState variant="rows" count={3} message="Loading profile..." />;
-  if (error) return <ErrorState title="Profile unavailable" message={error} onRetry={() => refetch()} />;
+  if (loading)
+    return <LoadingState variant="rows" count={3} message="Loading profile..." />;
+  if (error)
+    return (
+      <ErrorState title="Profile unavailable" message={error} onRetry={() => refetch()} />
+    );
   if (!profile) {
     return (
       <EmptyState
@@ -42,7 +46,9 @@ export default function PublicProfilePage() {
             </Badge>
           )}
         </div>
-        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">{profile.name}</h1>
+        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">
+          {profile.name}
+        </h1>
         <p className="text-sm text-[#c2c2c2] max-w-2xl">
           {profile.headline || "This member has not added a headline yet."}
         </p>
@@ -50,7 +56,10 @@ export default function PublicProfilePage() {
           <div className="flex flex-wrap gap-2">
             <ConnectionActions userId={profile.id} />
             <MessageButton userId={profile.id} />
-            <MentorRequestButton mentorId={profile.id} openToMentor={profile.openToMentor} />
+            <MentorRequestButton
+              mentorId={profile.id}
+              openToMentor={profile.openToMentor}
+            />
           </div>
         )}
       </section>

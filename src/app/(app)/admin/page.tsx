@@ -8,9 +8,17 @@ import { LoadingState } from "@/components/ui/loading-state";
 import { useAdminOverview } from "@/hooks/api/use-admin";
 import { cn } from "@/lib/utils";
 
-const CARDS: Array<{ key: keyof NonNullable<ReturnType<typeof useAdminOverview>["overview"]>; label: string; href: string }> = [
+const CARDS: Array<{
+  key: keyof NonNullable<ReturnType<typeof useAdminOverview>["overview"]>;
+  label: string;
+  href: string;
+}> = [
   { key: "users", label: "Users", href: "/admin/users" },
-  { key: "pendingVerifications", label: "Pending verification", href: "/admin/verification" },
+  {
+    key: "pendingVerifications",
+    label: "Pending verification",
+    href: "/admin/verification",
+  },
   { key: "jobs", label: "Jobs", href: "/jobs" },
   { key: "applications", label: "Applications", href: "/jobs" },
   { key: "events", label: "Events", href: "/admin/events" },
@@ -32,7 +40,10 @@ export default function AdminOverviewPage() {
             Counts come from MongoDB, not placeholders. Open a card to manage that area.
           </p>
         </div>
-        <Link href="/admin/analytics" className={cn(buttonVariants({ variant: "outline" }))}>
+        <Link
+          href="/admin/analytics"
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
           Open analytics
         </Link>
       </div>
@@ -40,13 +51,24 @@ export default function AdminOverviewPage() {
       {loading ? (
         <LoadingState variant="cards" count={6} message="Loading overview..." />
       ) : error ? (
-        <ErrorState title="Could not load overview" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load overview"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : !overview ? (
-        <EmptyState title="No overview yet" description="Seed the database, then refresh this desk." />
+        <EmptyState
+          title="No overview yet"
+          description="Seed the database, then refresh this desk."
+        />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {CARDS.map((card) => (
-            <Link key={card.key} href={card.href} className="frosted-glass-card p-5 space-y-2 hover:border-[#e5e5e5]/30 transition-colors">
+            <Link
+              key={card.key}
+              href={card.href}
+              className="frosted-glass-card p-5 space-y-2 hover:border-[#e5e5e5]/30 transition-colors"
+            >
               <div className="text-xs text-[#686868]">{card.label}</div>
               <div className="text-2xl font-medium">{overview[card.key]}</div>
             </Link>

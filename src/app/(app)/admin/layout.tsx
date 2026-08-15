@@ -10,7 +10,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const { user, loading } = useAuth();
 
-  if (loading) return <LoadingState variant="rows" count={2} message="Checking access..." />;
+  if (loading)
+    return <LoadingState variant="rows" count={2} message="Checking access..." />;
   if (user?.role !== "admin") {
     return (
       <EmptyState

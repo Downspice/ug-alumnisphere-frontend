@@ -17,11 +17,23 @@ import { useCampaignActions, useCampaigns } from "@/hooks/api/use-campaigns";
 import { campaignSchema, type CampaignFormValues } from "@/lib/validations/giving";
 import type { Campaign } from "@/lib/api/services/giving.service";
 
-const EMPTY: CampaignFormValues = { title: "", description: "", goalAmount: "", deadline: "" };
+const EMPTY: CampaignFormValues = {
+  title: "",
+  description: "",
+  goalAmount: "",
+  deadline: "",
+};
 
 export default function AdminCampaignsPage() {
   const { campaigns, loading, error, refetch } = useCampaigns(undefined, true);
-  const { createCampaign, publishCampaign, closeCampaign, creating, publishing, closing } = useCampaignActions();
+  const {
+    createCampaign,
+    publishCampaign,
+    closeCampaign,
+    creating,
+    publishing,
+    closing,
+  } = useCampaignActions();
   const [open, setOpen] = useState(false);
   const form = useForm<CampaignFormValues>({
     resolver: zodResolver(campaignSchema),
@@ -34,7 +46,8 @@ export default function AdminCampaignsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Campaign desk</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Draft, publish, and close giving campaigns. Cover images wait for storage buckets. No payment checkout is attached.
+            Draft, publish, and close giving campaigns. Cover images wait for storage
+            buckets. No payment checkout is attached.
           </p>
         </div>
         <Button type="button" onClick={() => setOpen(true)}>
@@ -45,9 +58,16 @@ export default function AdminCampaignsPage() {
       {loading ? (
         <LoadingState variant="rows" count={3} message="Loading campaigns..." />
       ) : error ? (
-        <ErrorState title="Could not load campaigns" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load campaigns"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : campaigns.length === 0 ? (
-        <EmptyState title="No campaigns" description="Create a draft, then publish it to the alumni giving list." />
+        <EmptyState
+          title="No campaigns"
+          description="Create a draft, then publish it to the alumni giving list."
+        />
       ) : (
         <div className="space-y-3">
           {campaigns.map((campaign: Campaign) => (
@@ -56,7 +76,8 @@ export default function AdminCampaignsPage() {
                 <div>
                   <div className="text-sm font-medium">{campaign.title}</div>
                   <div className="text-xs text-[#c2c2c2]">
-                    GHS {campaign.raisedAmount} / {campaign.goalAmount} · {campaign.contributorCount} records
+                    GHS {campaign.raisedAmount} / {campaign.goalAmount} ·{" "}
+                    {campaign.contributorCount} records
                   </div>
                 </div>
                 <Badge variant="outline" className="capitalize">
@@ -113,8 +134,17 @@ export default function AdminCampaignsPage() {
           >
             <FormInput control={form.control} name="title" label="Title" />
             <FormTextarea control={form.control} name="description" label="Description" />
-            <FormInput control={form.control} name="goalAmount" label="Goal (GHS)" placeholder="50000" />
-            <FormDatePicker control={form.control} name="deadline" label="Deadline (optional)" />
+            <FormInput
+              control={form.control}
+              name="goalAmount"
+              label="Goal (GHS)"
+              placeholder="50000"
+            />
+            <FormDatePicker
+              control={form.control}
+              name="deadline"
+              label="Deadline (optional)"
+            />
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Close

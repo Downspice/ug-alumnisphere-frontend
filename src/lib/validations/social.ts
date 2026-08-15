@@ -29,15 +29,27 @@ export const postSchema = z
   })
   .superRefine((values, ctx) => {
     if (values.type === "image" && !values.image) {
-      ctx.addIssue({ code: "custom", path: ["image"], message: "Choose an image before posting." });
+      ctx.addIssue({
+        code: "custom",
+        path: ["image"],
+        message: "Choose an image before posting.",
+      });
     }
     if (values.type === "text" && !values.body?.trim()) {
-      ctx.addIssue({ code: "custom", path: ["body"], message: "Write something before posting." });
+      ctx.addIssue({
+        code: "custom",
+        path: ["body"],
+        message: "Write something before posting.",
+      });
     }
     if (values.type === "link") {
       const url = values.linkUrl?.trim() ?? "";
       if (!/^https?:\/\//.test(url)) {
-        ctx.addIssue({ code: "custom", path: ["linkUrl"], message: "Enter a valid http(s) link." });
+        ctx.addIssue({
+          code: "custom",
+          path: ["linkUrl"],
+          message: "Enter a valid http(s) link.",
+        });
       }
     }
     if (values.type === "poll") {
@@ -66,7 +78,11 @@ export const commentSchema = z.object({
 });
 
 export const reportSchema = z.object({
-  reason: z.string().trim().min(8, "Explain why you are reporting this (8+ characters)").max(400),
+  reason: z
+    .string()
+    .trim()
+    .min(8, "Explain why you are reporting this (8+ characters)")
+    .max(400),
 });
 
 export type SearchFormValues = z.infer<typeof searchSchema>;

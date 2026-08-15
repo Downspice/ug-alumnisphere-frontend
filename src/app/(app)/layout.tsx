@@ -6,11 +6,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { useAuth } from "@/components/providers/auth-provider";
 import { LoadingState } from "@/components/ui/loading-state";
 
-export default function AuthenticatedLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
 

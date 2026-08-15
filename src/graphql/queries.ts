@@ -172,8 +172,12 @@ export const GET_MY_CONNECTIONS = gql`
       id
       status
       updatedAt
-      requester { ...DirectoryUserFields }
-      addressee { ...DirectoryUserFields }
+      requester {
+        ...DirectoryUserFields
+      }
+      addressee {
+        ...DirectoryUserFields
+      }
     }
   }
   ${DIRECTORY_USER_FIELDS}
@@ -185,7 +189,9 @@ export const GET_PENDING_CONNECTIONS = gql`
       id
       status
       createdAt
-      requester { ...DirectoryUserFields }
+      requester {
+        ...DirectoryUserFields
+      }
     }
   }
   ${DIRECTORY_USER_FIELDS}
@@ -197,7 +203,9 @@ export const GET_SENT_CONNECTIONS = gql`
       id
       status
       createdAt
-      addressee { ...DirectoryUserFields }
+      addressee {
+        ...DirectoryUserFields
+      }
     }
   }
   ${DIRECTORY_USER_FIELDS}
@@ -207,7 +215,9 @@ export const GET_SUGGESTED_CONNECTIONS = gql`
   query GetSuggestedConnections {
     suggestedConnections {
       reasons
-      user { ...DirectoryUserFields }
+      user {
+        ...DirectoryUserFields
+      }
     }
   }
   ${DIRECTORY_USER_FIELDS}
@@ -218,8 +228,12 @@ export const GET_CONNECTION_STATUS = gql`
     connectionStatus(userId: $userId) {
       id
       status
-      requester { id }
-      addressee { id }
+      requester {
+        id
+      }
+      addressee {
+        id
+      }
     }
   }
 `;
@@ -440,8 +454,20 @@ export const JOB_FIELDS = gql`
 `;
 
 export const GET_JOBS = gql`
-  query GetJobs($search: String, $type: JobType, $location: String, $industry: String, $sort: JobSort) {
-    jobs(search: $search, type: $type, location: $location, industry: $industry, sort: $sort) {
+  query GetJobs(
+    $search: String
+    $type: JobType
+    $location: String
+    $industry: String
+    $sort: JobSort
+  ) {
+    jobs(
+      search: $search
+      type: $type
+      location: $location
+      industry: $industry
+      sort: $sort
+    ) {
       ...JobFields
     }
   }
@@ -524,8 +550,12 @@ export const GET_MENTORSHIP_REQUEST_STATUS = gql`
       id
       status
       message
-      mentee { id }
-      mentor { id }
+      mentee {
+        id
+      }
+      mentor {
+        id
+      }
     }
   }
 `;
@@ -537,7 +567,9 @@ export const GET_INCOMING_MENTORSHIP = gql`
       status
       message
       createdAt
-      mentee { ...DirectoryUserFields }
+      mentee {
+        ...DirectoryUserFields
+      }
     }
   }
   ${DIRECTORY_USER_FIELDS}
@@ -550,7 +582,9 @@ export const GET_SENT_MENTORSHIP = gql`
       status
       message
       createdAt
-      mentor { ...DirectoryUserFields }
+      mentor {
+        ...DirectoryUserFields
+      }
     }
   }
   ${DIRECTORY_USER_FIELDS}
@@ -562,8 +596,12 @@ export const GET_MY_MENTORSHIPS = gql`
       id
       status
       createdAt
-      mentor { ...DirectoryUserFields }
-      mentee { ...DirectoryUserFields }
+      mentor {
+        ...DirectoryUserFields
+      }
+      mentee {
+        ...DirectoryUserFields
+      }
       goals {
         id
         text
@@ -596,7 +634,11 @@ export const EVENT_FIELDS = gql`
 
 export const GET_EVENTS = gql`
   query GetEvents($search: String, $location: String, $includeUnpublished: Boolean) {
-    events(search: $search, location: $location, includeUnpublished: $includeUnpublished) {
+    events(
+      search: $search
+      location: $location
+      includeUnpublished: $includeUnpublished
+    ) {
       ...EventFields
     }
   }
@@ -737,11 +779,27 @@ export const GET_ADMIN_ANALYTICS = gql`
   query GetAdminAnalytics {
     adminAnalytics {
       source
-      usersByRole { label value }
-      jobsByType { label value }
-      eventsByStatus { label value }
-      campaignProgress { label value goal }
-      contributionsByMonth { label value }
+      usersByRole {
+        label
+        value
+      }
+      jobsByType {
+        label
+        value
+      }
+      eventsByStatus {
+        label
+        value
+      }
+      campaignProgress {
+        label
+        value
+        goal
+      }
+      contributionsByMonth {
+        label
+        value
+      }
     }
   }
 `;

@@ -23,13 +23,20 @@ export default function AdminUsersPage() {
       {loading ? (
         <LoadingState variant="rows" count={5} message="Loading users..." />
       ) : error ? (
-        <ErrorState title="Could not load users" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load users"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : users.length === 0 ? (
         <EmptyState title="No users" description="The user collection is empty." />
       ) : (
         <div className="space-y-3">
           {users.map((person) => (
-            <article key={person.id} className="frosted-glass-card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <article
+              key={person.id}
+              className="frosted-glass-card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+            >
               <div>
                 <div className="text-sm font-medium">{person.name}</div>
                 <div className="text-xs text-[#c2c2c2]">

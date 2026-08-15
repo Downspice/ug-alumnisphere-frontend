@@ -14,7 +14,10 @@ import { LoadingState } from "@/components/ui/loading-state";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useCampaigns, useMyContributions } from "@/hooks/api/use-campaigns";
-import { campaignFilterSchema, type CampaignFilterValues } from "@/lib/validations/giving";
+import {
+  campaignFilterSchema,
+  type CampaignFilterValues,
+} from "@/lib/validations/giving";
 import { cn } from "@/lib/utils";
 
 export default function CampaignsPage() {
@@ -33,11 +36,15 @@ export default function CampaignsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Campaigns</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Record a pledge amount. AlumniSphere does not take card payments — records stay in MongoDB until a provider such as Paystack is configured.
+            Record a pledge amount. AlumniSphere does not take card payments — records
+            stay in MongoDB until a provider such as Paystack is configured.
           </p>
         </div>
         {user?.role === "admin" && (
-          <Link href="/admin/campaigns" className={cn(buttonVariants({ variant: "outline" }))}>
+          <Link
+            href="/admin/campaigns"
+            className={cn(buttonVariants({ variant: "outline" }))}
+          >
             Manage campaigns
           </Link>
         )}
@@ -75,9 +82,16 @@ export default function CampaignsPage() {
           {campaigns.loading ? (
             <LoadingState variant="cards" count={3} message="Loading campaigns..." />
           ) : campaigns.error ? (
-            <ErrorState title="Could not load campaigns" message={campaigns.error} onRetry={() => campaigns.refetch()} />
+            <ErrorState
+              title="Could not load campaigns"
+              message={campaigns.error}
+              onRetry={() => campaigns.refetch()}
+            />
           ) : campaigns.campaigns.length === 0 ? (
-            <EmptyState title="No published campaigns" description="Administrators publish giving campaigns from the admin desk." />
+            <EmptyState
+              title="No published campaigns"
+              description="Administrators publish giving campaigns from the admin desk."
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {campaigns.campaigns.map((campaign) => (
@@ -88,7 +102,9 @@ export default function CampaignsPage() {
                       {campaign.status}
                     </Badge>
                   </div>
-                  <p className="text-sm text-[#c2c2c2] line-clamp-3">{campaign.description}</p>
+                  <p className="text-sm text-[#c2c2c2] line-clamp-3">
+                    {campaign.description}
+                  </p>
                   <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
                     <div
                       className="h-full rounded-full bg-white"
@@ -96,9 +112,13 @@ export default function CampaignsPage() {
                     />
                   </div>
                   <p className="text-xs text-[#686868]">
-                    GHS {campaign.raisedAmount} of {campaign.goalAmount} · {campaign.contributorCount} records
+                    GHS {campaign.raisedAmount} of {campaign.goalAmount} ·{" "}
+                    {campaign.contributorCount} records
                   </p>
-                  <Link href={`/campaigns/${campaign.id}`} className={cn(buttonVariants({ size: "sm" }))}>
+                  <Link
+                    href={`/campaigns/${campaign.id}`}
+                    className={cn(buttonVariants({ size: "sm" }))}
+                  >
                     Open
                   </Link>
                 </article>
@@ -111,13 +131,23 @@ export default function CampaignsPage() {
           {mine.loading ? (
             <LoadingState variant="rows" count={3} message="Loading your records..." />
           ) : mine.error ? (
-            <ErrorState title="Could not load records" message={mine.error} onRetry={() => mine.refetch()} />
+            <ErrorState
+              title="Could not load records"
+              message={mine.error}
+              onRetry={() => mine.refetch()}
+            />
           ) : mine.contributions.length === 0 ? (
-            <EmptyState title="No contribution records" description="Open a campaign and record an amount. Nothing is charged." />
+            <EmptyState
+              title="No contribution records"
+              description="Open a campaign and record an amount. Nothing is charged."
+            />
           ) : (
             <div className="space-y-3">
               {mine.contributions.map((item) => (
-                <article key={item.id} className="frosted-glass-card p-4 flex items-center justify-between gap-3">
+                <article
+                  key={item.id}
+                  className="frosted-glass-card p-4 flex items-center justify-between gap-3"
+                >
                   <div>
                     <div className="text-sm font-medium">{item.campaign?.title}</div>
                     <div className="text-xs text-[#c2c2c2]">
@@ -126,7 +156,10 @@ export default function CampaignsPage() {
                     </div>
                   </div>
                   {item.campaign && (
-                    <Link href={`/campaigns/${item.campaign.id}`} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+                    <Link
+                      href={`/campaigns/${item.campaign.id}`}
+                      className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+                    >
                       View
                     </Link>
                   )}

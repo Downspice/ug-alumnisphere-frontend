@@ -23,7 +23,10 @@ export function JobCard({ job, footer }: { job: Job; footer?: React.ReactNode })
             {job.company} · {job.location}
           </p>
         </div>
-        <Badge variant={job.status === "open" ? "secondary" : "outline"} className="capitalize">
+        <Badge
+          variant={job.status === "open" ? "secondary" : "outline"}
+          className="capitalize"
+        >
           {job.status}
         </Badge>
       </div>
@@ -32,7 +35,9 @@ export function JobCard({ job, footer }: { job: Job; footer?: React.ReactNode })
           {TYPE_LABEL[job.type] ?? job.type}
         </span>
         {job.industry && (
-          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">{job.industry}</span>
+          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">
+            {job.industry}
+          </span>
         )}
         {job.myApplication && (
           <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5 capitalize">
@@ -42,7 +47,10 @@ export function JobCard({ job, footer }: { job: Job; footer?: React.ReactNode })
       </div>
       <p className="text-sm text-[#c2c2c2] line-clamp-3">{job.description}</p>
       <div className="mt-auto flex items-center justify-between gap-2">
-        <Link href={`/jobs/${job.id}`} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+        <Link
+          href={`/jobs/${job.id}`}
+          className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+        >
           View role
         </Link>
         {footer}

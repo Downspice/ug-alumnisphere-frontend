@@ -24,12 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useUnreadCount } from "@/hooks/api/use-notifications";
 import { cn } from "@/lib/utils";
@@ -67,7 +62,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const links = items.map((item) => {
     const Icon = item.icon;
     const active =
-      pathname === item.href || (item.href !== "/home" && pathname.startsWith(`${item.href}/`));
+      pathname === item.href ||
+      (item.href !== "/home" && pathname.startsWith(`${item.href}/`));
     return (
       <Link
         key={item.href}

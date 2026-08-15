@@ -39,10 +39,20 @@ export default function JobDetailPage() {
   const params = useParams<{ id: string }>();
   const { user } = useAuth();
   const { job, loading, error, refetch } = useJob(params.id);
-  const isPoster = Boolean(job && (job.postedBy?.id === user?.id || user?.role === "admin"));
+  const isPoster = Boolean(
+    job && (job.postedBy?.id === user?.id || user?.role === "admin")
+  );
   const applications = useJobApplications(isPoster ? params.id : undefined);
-  const { applyToJob, withdrawApplication, updateApplicationStatus, toggleSave, applying, withdrawing, closing, closeJob } =
-    useJobActions(params.id);
+  const {
+    applyToJob,
+    withdrawApplication,
+    updateApplicationStatus,
+    toggleSave,
+    applying,
+    withdrawing,
+    closing,
+    closeJob,
+  } = useJobActions(params.id);
   const [applyOpen, setApplyOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const form = useForm<ApplyFormValues>({
@@ -51,7 +61,10 @@ export default function JobDetailPage() {
   });
 
   if (loading) return <LoadingState variant="rows" count={3} message="Loading job..." />;
-  if (error) return <ErrorState title="Job unavailable" message={error} onRetry={() => refetch()} />;
+  if (error)
+    return (
+      <ErrorState title="Job unavailable" message={error} onRetry={() => refetch()} />
+    );
   if (!job) {
     return (
       <EmptyState
@@ -66,7 +79,8 @@ export default function JobDetailPage() {
     );
   }
 
-  const canApply = job.status === "open" && job.postedBy?.id !== user?.id && !job.myApplication;
+  const canApply =
+    job.status === "open" && job.postedBy?.id !== user?.id && !job.myApplication;
   const canWithdraw =
     job.myApplication &&
     job.myApplication.status !== "withdrawn" &&
@@ -74,7 +88,10 @@ export default function JobDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Link href="/jobs" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+      <Link
+        href="/jobs"
+        className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+      >
         Back to jobs
       </Link>
 
@@ -86,7 +103,9 @@ export default function JobDetailPage() {
           </Badge>
           {job.industry && <Badge variant="outline">{job.industry}</Badge>}
         </div>
-        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">{job.title}</h1>
+        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">
+          {job.title}
+        </h1>
         <p className="text-sm text-[#c2c2c2]">
           {job.company} · {job.location}
           {job.postedBy?.name ? ` · posted by ${job.postedBy.name}` : ""}
@@ -111,13 +130,20 @@ export default function JobDetailPage() {
             </Button>
           )}
           {isPoster && job.status === "open" && (
-            <Button type="button" variant="outline" disabled={closing} onClick={() => closeJob(job.id)}>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={closing}
+              onClick={() => closeJob(job.id)}
+            >
               Close listing
             </Button>
           )}
         </div>
         {job.myApplication && (
-          <p className="text-xs text-[#c2c2c2] capitalize">Your application: {job.myApplication.status}</p>
+          <p className="text-xs text-[#c2c2c2] capitalize">
+            Your application: {job.myApplication.status}
+          </p>
         )}
       </section>
 
@@ -156,15 +182,25 @@ export default function JobDetailPage() {
               onRetry={() => applications.refetch()}
             />
           ) : applications.applications.length === 0 ? (
-            <EmptyState title="No applications yet" description="Candidates will appear here after they apply." />
+            <EmptyState
+              title="No applications yet"
+              description="Candidates will appear here after they apply."
+            />
           ) : (
             <div className="space-y-3">
               {applications.applications.map((application) => (
-                <article key={application.id} className="frosted-glass-card p-4 space-y-3">
+                <article
+                  key={application.id}
+                  className="frosted-glass-card p-4 space-y-3"
+                >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="text-sm font-medium">{application.applicant?.name ?? "Applicant"}</div>
-                      <p className="text-sm text-[#c2c2c2] mt-1">{application.coverNote}</p>
+                      <div className="text-sm font-medium">
+                        {application.applicant?.name ?? "Applicant"}
+                      </div>
+                      <p className="text-sm text-[#c2c2c2] mt-1">
+                        {application.coverNote}
+                      </p>
                     </div>
                     <Badge variant="outline" className="capitalize">
                       {application.status}
@@ -217,7 +253,10 @@ export default function JobDetailPage() {
                   resumeFileId = (await uploadFile(resume, "resume")).id;
                 } catch (error) {
                   toast.error("Could not upload resume", {
-                    description: error instanceof Error ? error.message : "Try a PDF or Word file under 8MB.",
+                    description:
+                      error instanceof Error
+                        ? error.message
+                        : "Try a PDF or Word file under 8MB.",
                   });
                   return;
                 } finally {
@@ -249,7 +288,11 @@ export default function JobDetailPage() {
                 Cancel
               </Button>
               <Button type="submit" disabled={applying || uploading}>
-                {uploading ? "Uploading…" : applying ? "Submitting…" : "Submit application"}
+                {uploading
+                  ? "Uploading…"
+                  : applying
+                    ? "Submitting…"
+                    : "Submit application"}
               </Button>
             </div>
           </form>

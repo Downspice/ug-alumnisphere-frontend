@@ -35,7 +35,9 @@ export const profileSchema = z.object({
     .string()
     .optional()
     .refine(
-      (value) => !value || (/^\d{4}$/.test(value) && Number(value) >= 1950 && Number(value) <= 2100),
+      (value) =>
+        !value ||
+        (/^\d{4}$/.test(value) && Number(value) >= 1950 && Number(value) <= 2100),
       "Enter a year between 1950 and 2100"
     ),
   programme: z.string().max(160).optional(),

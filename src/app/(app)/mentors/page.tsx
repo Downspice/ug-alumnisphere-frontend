@@ -34,7 +34,8 @@ export default function MentorsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Mentors</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Alumni who marked themselves open to mentor. Requests are reviewed by the mentor.
+            Alumni who marked themselves open to mentor. Requests are reviewed by the
+            mentor.
           </p>
         </div>
         <Link href="/mentorship" className={cn(buttonVariants({ variant: "outline" }))}>
@@ -47,7 +48,12 @@ export default function MentorsPage() {
           onSubmit={form.handleSubmit((values) => setApplied(values))}
           className="frosted-glass-card p-5 grid grid-cols-1 md:grid-cols-4 gap-4"
         >
-          <FormInput control={form.control} name="search" label="Search" placeholder="Name or programme" />
+          <FormInput
+            control={form.control}
+            name="search"
+            label="Search"
+            placeholder="Name or programme"
+          />
           <FormInput control={form.control} name="industry" label="Industry" />
           <FormInput control={form.control} name="location" label="Location" />
           <Button type="submit" variant="outline" className="md:self-end">
@@ -59,7 +65,11 @@ export default function MentorsPage() {
       {loading ? (
         <LoadingState variant="cards" count={3} message="Loading mentors..." />
       ) : error ? (
-        <ErrorState title="Could not load mentors" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load mentors"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : mentors.length === 0 ? (
         <EmptyState
           title="No mentors match"
@@ -71,7 +81,13 @@ export default function MentorsPage() {
             <AlumniCard
               key={person.id}
               person={person}
-              footer={<MentorRequestButton mentorId={person.id} openToMentor={person.openToMentor} compact />}
+              footer={
+                <MentorRequestButton
+                  mentorId={person.id}
+                  openToMentor={person.openToMentor}
+                  compact
+                />
+              }
             />
           ))}
         </div>

@@ -15,7 +15,10 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { useMyVerification, useSubmitVerification } from "@/hooks/api/use-verification";
 import { LoadingState } from "@/components/ui/loading-state";
 import { ErrorState } from "@/components/ui/error-state";
-import { verificationSchema, type VerificationFormValues } from "@/lib/validations/network";
+import {
+  verificationSchema,
+  type VerificationFormValues,
+} from "@/lib/validations/network";
 
 export function VerificationPanel() {
   const { user, refetchUser } = useAuth();
@@ -38,14 +41,25 @@ export function VerificationPanel() {
   });
 
   if (!user || user.role !== "alumni") return null;
-  if (loading) return <LoadingState variant="rows" count={1} message="Loading verification..." />;
-  if (error) return <ErrorState compact title="Verification unavailable" message={error} onRetry={() => refetch()} />;
+  if (loading)
+    return <LoadingState variant="rows" count={1} message="Loading verification..." />;
+  if (error)
+    return (
+      <ErrorState
+        compact
+        title="Verification unavailable"
+        message={error}
+        onRetry={() => refetch()}
+      />
+    );
 
   if (user.verificationStatus === "verified") {
     return (
       <div className="frosted-glass-card p-5 space-y-2">
         <Badge variant="secondary">Verified</Badge>
-        <p className="text-sm text-[#c2c2c2]">An administrator has confirmed this alumni identity.</p>
+        <p className="text-sm text-[#c2c2c2]">
+          An administrator has confirmed this alumni identity.
+        </p>
       </div>
     );
   }
@@ -55,8 +69,11 @@ export function VerificationPanel() {
       <div className="frosted-glass-card p-5 space-y-2">
         <Badge>Pending review</Badge>
         <p className="text-sm text-[#c2c2c2]">
-          Submitted {request ? new Date(request.createdAt).toLocaleDateString() : "recently"}.
-          {request?.documentFileName ? ` Document on file: ${request.documentFileName}.` : ""}
+          Submitted{" "}
+          {request ? new Date(request.createdAt).toLocaleDateString() : "recently"}.
+          {request?.documentFileName
+            ? ` Document on file: ${request.documentFileName}.`
+            : ""}
         </p>
       </div>
     );
@@ -83,7 +100,10 @@ export function VerificationPanel() {
                 documentFileId = (await uploadFile(document, "verification")).id;
               } catch (error) {
                 toast.error("Could not upload document", {
-                  description: error instanceof Error ? error.message : "Try a PDF, JPEG, or PNG under 8MB.",
+                  description:
+                    error instanceof Error
+                      ? error.message
+                      : "Try a PDF, JPEG, or PNG under 8MB.",
                 });
                 return;
               } finally {
@@ -101,7 +121,11 @@ export function VerificationPanel() {
           className="space-y-4"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormInput control={form.control} name="graduationYear" label="Graduation year" />
+            <FormInput
+              control={form.control}
+              name="graduationYear"
+              label="Graduation year"
+            />
             <FormInput control={form.control} name="programme" label="Programme" />
           </div>
           <FormInput

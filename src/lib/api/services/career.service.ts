@@ -3,7 +3,8 @@ import type { DirectoryUser } from "./network.service";
 export type JobType = "full_time" | "part_time" | "internship" | "contract";
 export type JobStatus = "open" | "closed";
 export type JobSort = "RECENT" | "TITLE_ASC";
-export type ApplicationStatus = "submitted" | "reviewing" | "shortlisted" | "rejected" | "withdrawn";
+export type ApplicationStatus =
+  "submitted" | "reviewing" | "shortlisted" | "rejected" | "withdrawn";
 
 export interface Job {
   id: string;

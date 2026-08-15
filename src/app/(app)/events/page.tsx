@@ -33,11 +33,15 @@ export default function EventsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Events</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Published alumni events. Registration is unique per person — you cannot register twice.
+            Published alumni events. Registration is unique per person — you cannot
+            register twice.
           </p>
         </div>
         {user?.role === "admin" && (
-          <Link href="/admin/events" className={cn(buttonVariants({ variant: "outline" }))}>
+          <Link
+            href="/admin/events"
+            className={cn(buttonVariants({ variant: "outline" }))}
+          >
             Manage events
           </Link>
         )}
@@ -48,7 +52,12 @@ export default function EventsPage() {
           onSubmit={form.handleSubmit((values) => setApplied(values))}
           className="frosted-glass-card p-5 grid grid-cols-1 md:grid-cols-3 gap-4"
         >
-          <FormInput control={form.control} name="search" label="Search" placeholder="Title or description" />
+          <FormInput
+            control={form.control}
+            name="search"
+            label="Search"
+            placeholder="Title or description"
+          />
           <FormInput control={form.control} name="location" label="Location" />
           <Button type="submit" variant="outline" className="md:self-end">
             Search
@@ -70,9 +79,16 @@ export default function EventsPage() {
           {events.loading ? (
             <LoadingState variant="cards" count={3} message="Loading events..." />
           ) : events.error ? (
-            <ErrorState title="Could not load events" message={events.error} onRetry={() => events.refetch()} />
+            <ErrorState
+              title="Could not load events"
+              message={events.error}
+              onRetry={() => events.refetch()}
+            />
           ) : events.events.length === 0 ? (
-            <EmptyState title="No published events" description="Administrators publish events from the events desk." />
+            <EmptyState
+              title="No published events"
+              description="Administrators publish events from the events desk."
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {events.events.map((event) => (
@@ -86,9 +102,16 @@ export default function EventsPage() {
           {mine.loading ? (
             <LoadingState variant="cards" count={2} message="Loading registrations..." />
           ) : mine.error ? (
-            <ErrorState title="Could not load registrations" message={mine.error} onRetry={() => mine.refetch()} />
+            <ErrorState
+              title="Could not load registrations"
+              message={mine.error}
+              onRetry={() => mine.refetch()}
+            />
           ) : mine.registrations.length === 0 ? (
-            <EmptyState title="You are not registered" description="Open an event and register when you can attend." />
+            <EmptyState
+              title="You are not registered"
+              description="Open an event and register when you can attend."
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {mine.registrations.map((item) => (

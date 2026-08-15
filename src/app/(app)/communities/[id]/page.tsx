@@ -32,17 +32,39 @@ export default function CommunityDetailPage() {
     user?.role === "admin";
   const requests = useCommunityJoinRequests(params.id, !isMod);
   const feed = useFeed(params.id);
-  const { joinCommunity, leaveCommunity, reviewJoinRequest, assignModerator, joining, leaving, reviewing, assigning } =
-    useCommunityActions(params.id);
+  const {
+    joinCommunity,
+    leaveCommunity,
+    reviewJoinRequest,
+    assignModerator,
+    joining,
+    leaving,
+    reviewing,
+    assigning,
+  } = useCommunityActions(params.id);
   const [leaveOpen, setLeaveOpen] = useState(false);
 
-  if (loading) return <LoadingState variant="rows" count={3} message="Loading community..." />;
-  if (error) return <ErrorState title="Community unavailable" message={error} onRetry={() => refetch()} />;
+  if (loading)
+    return <LoadingState variant="rows" count={3} message="Loading community..." />;
+  if (error)
+    return (
+      <ErrorState
+        title="Community unavailable"
+        message={error}
+        onRetry={() => refetch()}
+      />
+    );
   if (!community) {
-    return <EmptyState title="Community not found" description="This community may have been removed." />;
+    return (
+      <EmptyState
+        title="Community not found"
+        description="This community may have been removed."
+      />
+    );
   }
 
-  const canSeeFeed = !community.isPrivate || Boolean(community.myRole) || user?.role === "admin";
+  const canSeeFeed =
+    !community.isPrivate || Boolean(community.myRole) || user?.role === "admin";
   const canPost = Boolean(community.myRole) || user?.role === "admin";
 
   return (
@@ -56,7 +78,9 @@ export default function CommunityDetailPage() {
             </Badge>
           )}
         </div>
-        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">{community.name}</h1>
+        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">
+          {community.name}
+        </h1>
         <p className="text-sm text-[#c2c2c2] max-w-2xl">
           {community.description || "No description yet."}
         </p>
@@ -66,7 +90,11 @@ export default function CommunityDetailPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           {!community.myRole && !community.joinRequestPending && (
-            <Button type="button" disabled={joining} onClick={() => joinCommunity(community.id)}>
+            <Button
+              type="button"
+              disabled={joining}
+              onClick={() => joinCommunity(community.id)}
+            >
               {joining ? "Working…" : community.isPrivate ? "Request to join" : "Join"}
             </Button>
           )}
@@ -108,17 +136,34 @@ export default function CommunityDetailPage() {
             <>
               {canPost && <ComposePost communityId={community.id} />}
               {feed.loading ? (
-                <LoadingState variant="cards" count={2} message="Loading community posts..." />
+                <LoadingState
+                  variant="cards"
+                  count={2}
+                  message="Loading community posts..."
+                />
               ) : feed.error ? (
-                <ErrorState title="Could not load posts" message={feed.error} onRetry={() => feed.refetch()} />
+                <ErrorState
+                  title="Could not load posts"
+                  message={feed.error}
+                  onRetry={() => feed.refetch()}
+                />
               ) : feed.posts.length === 0 ? (
                 <EmptyState
                   title="No posts yet"
-                  description={canPost ? "Start the conversation with a text, link, or poll." : "Join to post here."}
+                  description={
+                    canPost
+                      ? "Start the conversation with a text, link, or poll."
+                      : "Join to post here."
+                  }
                 />
               ) : (
                 feed.posts.map((post) => (
-                  <PostCard key={post.id} post={post} communityId={community.id} compact />
+                  <PostCard
+                    key={post.id}
+                    post={post}
+                    communityId={community.id}
+                    compact
+                  />
                 ))
               )}
             </>
@@ -129,9 +174,16 @@ export default function CommunityDetailPage() {
           {members.loading ? (
             <LoadingState variant="cards" count={3} message="Loading members..." />
           ) : members.error ? (
-            <ErrorState title="Could not load members" message={members.error} onRetry={() => members.refetch()} />
+            <ErrorState
+              title="Could not load members"
+              message={members.error}
+              onRetry={() => members.refetch()}
+            />
           ) : members.members.length === 0 ? (
-            <EmptyState title="No members listed" description="Membership records will appear here." />
+            <EmptyState
+              title="No members listed"
+              description="Membership records will appear here."
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {members.members.map((member) =>
@@ -153,7 +205,10 @@ export default function CommunityDetailPage() {
                               size="sm"
                               disabled={assigning}
                               onClick={() =>
-                                assignModerator(member.user!.id, member.role !== "moderator")
+                                assignModerator(
+                                  member.user!.id,
+                                  member.role !== "moderator"
+                                )
                               }
                             >
                               {member.role === "moderator" ? "Remove mod" : "Make mod"}
@@ -179,14 +234,24 @@ export default function CommunityDetailPage() {
                 onRetry={() => requests.refetch()}
               />
             ) : requests.requests.length === 0 ? (
-              <EmptyState title="No pending requests" description="New private-community requests will appear here." />
+              <EmptyState
+                title="No pending requests"
+                description="New private-community requests will appear here."
+              />
             ) : (
               <div className="space-y-3">
                 {requests.requests.map((request) => (
-                  <article key={request.id} className="frosted-glass-card p-4 flex items-center justify-between gap-3">
+                  <article
+                    key={request.id}
+                    className="frosted-glass-card p-4 flex items-center justify-between gap-3"
+                  >
                     <div>
-                      <div className="text-sm font-medium">{request.user?.name ?? "Applicant"}</div>
-                      <div className="text-xs text-[#686868]">{request.user?.headline}</div>
+                      <div className="text-sm font-medium">
+                        {request.user?.name ?? "Applicant"}
+                      </div>
+                      <div className="text-xs text-[#686868]">
+                        {request.user?.headline}
+                      </div>
                     </div>
                     <div className="flex gap-2">
                       <Button
@@ -239,7 +304,9 @@ export default function CommunityDetailPage() {
           </div>
         }
       >
-        <p className="text-sm text-[#c2c2c2]">Your previous posts stay in the community timeline.</p>
+        <p className="text-sm text-[#c2c2c2]">
+          Your previous posts stay in the community timeline.
+        </p>
       </ResponsiveModal>
     </div>
   );

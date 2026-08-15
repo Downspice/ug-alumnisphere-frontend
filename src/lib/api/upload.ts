@@ -14,7 +14,10 @@ export interface UploadedFile {
   url: string;
 }
 
-export async function uploadFile(file: File, purpose: UploadPurpose): Promise<UploadedFile> {
+export async function uploadFile(
+  file: File,
+  purpose: UploadPurpose
+): Promise<UploadedFile> {
   const token = getAccessToken();
   if (!token) {
     throw new Error("Sign in to upload a file.");
@@ -28,9 +31,7 @@ export async function uploadFile(file: File, purpose: UploadPurpose): Promise<Up
     body,
   });
   const payload = (await response.json().catch(() => null)) as
-    | UploadedFile
-    | { error?: { message?: string } }
-    | null;
+    UploadedFile | { error?: { message?: string } } | null;
   if (!response.ok) {
     const message =
       payload && "error" in payload ? payload.error?.message : "Upload failed.";

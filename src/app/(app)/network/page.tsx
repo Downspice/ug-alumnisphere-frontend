@@ -18,7 +18,11 @@ import {
 } from "@/hooks/api/use-connections";
 import type { DirectoryUser } from "@/lib/api/services/network.service";
 
-function otherUser(requester?: DirectoryUser, addressee?: DirectoryUser, viewerId?: string) {
+function otherUser(
+  requester?: DirectoryUser,
+  addressee?: DirectoryUser,
+  viewerId?: string
+) {
   if (!viewerId) return requester ?? addressee ?? null;
   if (requester?.id === viewerId) return addressee ?? null;
   return requester ?? null;
@@ -61,7 +65,11 @@ export default function NetworkPage() {
           {connections.loading ? (
             <LoadingState variant="cards" count={3} message="Loading connections..." />
           ) : connections.error ? (
-            <ErrorState title="Could not load connections" message={connections.error} onRetry={() => connections.refetch()} />
+            <ErrorState
+              title="Could not load connections"
+              message={connections.error}
+              onRetry={() => connections.refetch()}
+            />
           ) : connections.connections.length === 0 ? (
             <EmptyState
               title="No connections yet"
@@ -91,18 +99,34 @@ export default function NetworkPage() {
 
         <TabsContent value="pending">
           {pending.loading ? (
-            <LoadingState variant="rows" count={3} message="Loading incoming requests..." />
+            <LoadingState
+              variant="rows"
+              count={3}
+              message="Loading incoming requests..."
+            />
           ) : pending.error ? (
-            <ErrorState title="Could not load requests" message={pending.error} onRetry={() => pending.refetch()} />
+            <ErrorState
+              title="Could not load requests"
+              message={pending.error}
+              onRetry={() => pending.refetch()}
+            />
           ) : pending.requests.length === 0 ? (
-            <EmptyState title="No incoming requests" description="When someone wants to connect, they will appear here." />
+            <EmptyState
+              title="No incoming requests"
+              description="When someone wants to connect, they will appear here."
+            />
           ) : (
             <div className="space-y-3">
               {pending.requests.map((item) => (
-                <div key={item.id} className="frosted-glass-card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div
+                  key={item.id}
+                  className="frosted-glass-card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                >
                   <div>
                     <div className="text-sm font-medium">{item.requester?.name}</div>
-                    <div className="text-xs text-[#c2c2c2]">{item.requester?.headline || item.requester?.programme}</div>
+                    <div className="text-xs text-[#c2c2c2]">
+                      {item.requester?.headline || item.requester?.programme}
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <Button
@@ -131,9 +155,16 @@ export default function NetworkPage() {
           {sent.loading ? (
             <LoadingState variant="rows" count={2} message="Loading sent requests..." />
           ) : sent.error ? (
-            <ErrorState title="Could not load sent requests" message={sent.error} onRetry={() => sent.refetch()} />
+            <ErrorState
+              title="Could not load sent requests"
+              message={sent.error}
+              onRetry={() => sent.refetch()}
+            />
           ) : sent.requests.length === 0 ? (
-            <EmptyState title="No sent requests" description="Requests you send stay here until they are accepted or declined." />
+            <EmptyState
+              title="No sent requests"
+              description="Requests you send stay here until they are accepted or declined."
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {sent.requests.map((item) =>
@@ -141,9 +172,7 @@ export default function NetworkPage() {
                   <AlumniCard
                     key={item.id}
                     person={item.addressee}
-                    footer={
-                      <span className="text-xs text-[#686868]">Pending</span>
-                    }
+                    footer={<span className="text-xs text-[#686868]">Pending</span>}
                   />
                 ) : null
               )}
@@ -155,7 +184,11 @@ export default function NetworkPage() {
           {suggested.loading ? (
             <LoadingState variant="cards" count={3} message="Loading suggestions..." />
           ) : suggested.error ? (
-            <ErrorState title="Could not load suggestions" message={suggested.error} onRetry={() => suggested.refetch()} />
+            <ErrorState
+              title="Could not load suggestions"
+              message={suggested.error}
+              onRetry={() => suggested.refetch()}
+            />
           ) : suggested.suggestions.length === 0 ? (
             <EmptyState
               title="No rule-based matches yet"
@@ -169,7 +202,9 @@ export default function NetworkPage() {
                     person={item.user}
                     footer={<ConnectionActions userId={item.user.id} compact />}
                   />
-                  <p className="text-[11px] text-[#686868] px-1">{item.reasons.join(" · ")}</p>
+                  <p className="text-[11px] text-[#686868] px-1">
+                    {item.reasons.join(" · ")}
+                  </p>
                 </div>
               ))}
             </div>

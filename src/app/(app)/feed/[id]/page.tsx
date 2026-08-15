@@ -16,7 +16,10 @@ export default function PostDetailPage() {
   const { post, loading, error, refetch } = usePost(params.id);
 
   if (loading) return <LoadingState variant="rows" count={3} message="Loading post..." />;
-  if (error) return <ErrorState title="Post unavailable" message={error} onRetry={() => refetch()} />;
+  if (error)
+    return (
+      <ErrorState title="Post unavailable" message={error} onRetry={() => refetch()} />
+    );
   if (!post) {
     return (
       <EmptyState
@@ -33,7 +36,10 @@ export default function PostDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Link href="/feed" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+      <Link
+        href="/feed"
+        className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+      >
         Back to feed
       </Link>
       <PostCard post={post} communityId={post.community?.id} />

@@ -16,13 +16,7 @@ export function formatEventDate(value: string) {
   });
 }
 
-export function EventCard({
-  event,
-  href,
-}: {
-  event: AlumniEvent;
-  href?: string;
-}) {
+export function EventCard({ event, href }: { event: AlumniEvent; href?: string }) {
   return (
     <article className="frosted-glass-card p-5 space-y-3 animate-in fade-in duration-500">
       <div className="flex items-start justify-between gap-3">
@@ -39,7 +33,10 @@ export function EventCard({
         {event.capacity ? ` / ${event.capacity}` : ""}
         {event.registeredByMe ? " · you are going" : ""}
       </div>
-      <Link href={href ?? `/events/${event.id}`} className={cn(buttonVariants({ size: "sm" }))}>
+      <Link
+        href={href ?? `/events/${event.id}`}
+        className={cn(buttonVariants({ size: "sm" }))}
+      >
         Open
       </Link>
     </article>

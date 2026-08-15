@@ -1,17 +1,34 @@
 "use client";
 
 import { useMutation, useQuery } from "@apollo/client/react";
-import { GET_ADMIN_ANALYTICS, GET_ADMIN_OVERVIEW, GET_CONTENT_REPORTS, GET_USERS } from "@/graphql/queries";
+import {
+  GET_ADMIN_ANALYTICS,
+  GET_ADMIN_OVERVIEW,
+  GET_CONTENT_REPORTS,
+  GET_USERS,
+} from "@/graphql/queries";
 import { REVIEW_REPORT, SET_USER_ACCOUNT_STATUS } from "@/graphql/mutations";
-import type { AdminAnalytics, AdminOverview, ContentReport } from "@/lib/api/services/giving.service";
+import type {
+  AdminAnalytics,
+  AdminOverview,
+  ContentReport,
+} from "@/lib/api/services/giving.service";
 import type { User } from "@/lib/api/services/users.service";
 import { toast } from "sonner";
 
 export function useAdminOverview() {
-  const { data, loading, error, refetch } = useQuery<{ adminOverview: AdminOverview }>(GET_ADMIN_OVERVIEW, {
-    errorPolicy: "all",
-  });
-  return { overview: data?.adminOverview ?? null, loading, error: error?.message ?? null, refetch };
+  const { data, loading, error, refetch } = useQuery<{ adminOverview: AdminOverview }>(
+    GET_ADMIN_OVERVIEW,
+    {
+      errorPolicy: "all",
+    }
+  );
+  return {
+    overview: data?.adminOverview ?? null,
+    loading,
+    error: error?.message ?? null,
+    refetch,
+  };
 }
 
 export function useAdminAnalytics() {
@@ -19,7 +36,12 @@ export function useAdminAnalytics() {
     GET_ADMIN_ANALYTICS,
     { errorPolicy: "all" }
   );
-  return { analytics: data?.adminAnalytics ?? null, loading, error: error?.message ?? null, refetch };
+  return {
+    analytics: data?.adminAnalytics ?? null,
+    loading,
+    error: error?.message ?? null,
+    refetch,
+  };
 }
 
 export function useContentReports(status?: string) {
@@ -27,7 +49,12 @@ export function useContentReports(status?: string) {
     GET_CONTENT_REPORTS,
     { variables: { status }, errorPolicy: "all" }
   );
-  return { reports: data?.contentReports ?? [], loading, error: error?.message ?? null, refetch };
+  return {
+    reports: data?.contentReports ?? [],
+    loading,
+    error: error?.message ?? null,
+    refetch,
+  };
 }
 
 export function useAdminActions() {
@@ -39,10 +66,12 @@ export function useAdminActions() {
   const [review, reviewState] = useMutation(REVIEW_REPORT, {
     refetchQueries: [{ query: GET_CONTENT_REPORTS }, { query: GET_ADMIN_OVERVIEW }],
     onCompleted: () => toast.success("Report marked reviewed"),
-    onError: (err) => toast.error("Could not review report", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not review report", { description: err.message }),
   });
   return {
-    setUserAccountStatus: (id: string, status: string) => setStatus({ variables: { id, status } }),
+    setUserAccountStatus: (id: string, status: string) =>
+      setStatus({ variables: { id, status } }),
     reviewReport: (id: string) => review({ variables: { id } }),
     updatingUser: statusState.loading,
     reviewing: reviewState.loading,

@@ -36,8 +36,16 @@ export function PostCard({
   compact?: boolean;
 }) {
   const { user } = useAuth();
-  const { toggleLike, toggleSave, votePoll, deletePost, reportContent, voting, deleting, reporting } =
-    usePostActions(communityId, post.id);
+  const {
+    toggleLike,
+    toggleSave,
+    votePoll,
+    deletePost,
+    reportContent,
+    voting,
+    deleting,
+    reporting,
+  } = usePostActions(communityId, post.id);
   const [reportOpen, setReportOpen] = useState(false);
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(reportSchema),
@@ -53,7 +61,9 @@ export function PostCard({
     <article className="frosted-glass-card p-5 space-y-4 animate-in fade-in duration-500">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-sm font-medium text-[#ededed]">{post.author?.name ?? "Alumni"}</div>
+          <div className="text-sm font-medium text-[#ededed]">
+            {post.author?.name ?? "Alumni"}
+          </div>
           <div className="text-[11px] text-[#686868]">{formatStamp(post.createdAt)}</div>
         </div>
         <div className="flex items-center gap-2">
@@ -68,7 +78,11 @@ export function PostCard({
         </div>
       </div>
 
-      {post.body && <p className="text-sm text-[#c2c2c2] leading-relaxed whitespace-pre-wrap">{post.body}</p>}
+      {post.body && (
+        <p className="text-sm text-[#c2c2c2] leading-relaxed whitespace-pre-wrap">
+          {post.body}
+        </p>
+      )}
 
       {post.type === "image" && authorizedFileUrl(post.imageUrl) && (
         <img
@@ -97,7 +111,9 @@ export function PostCard({
               ? Math.round((option.voteCount / post.pollTotalVotes) * 100)
               : 0;
             const voted = post.myPollVote === index;
-            const locked = post.pollClosed || post.myPollVote !== null && post.myPollVote !== undefined;
+            const locked =
+              post.pollClosed ||
+              (post.myPollVote !== null && post.myPollVote !== undefined);
             return (
               <Button
                 key={`${option.text}-${index}`}
@@ -125,19 +141,37 @@ export function PostCard({
       )}
 
       <div className="flex flex-wrap items-center gap-2">
-        <Button type="button" variant="ghost" size="sm" onClick={() => toggleLike(post.id)}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => toggleLike(post.id)}
+        >
           <Heart className={cn("size-3.5", post.likedByMe && "fill-current")} />
           {post.likeCount}
         </Button>
-        <Link href={`/feed/${post.id}`} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
+        <Link
+          href={`/feed/${post.id}`}
+          className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+        >
           <MessageCircle className="size-3.5" />
           {post.commentCount}
         </Link>
-        <Button type="button" variant="ghost" size="sm" onClick={() => toggleSave(post.id)}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => toggleSave(post.id)}
+        >
           <Bookmark className={cn("size-3.5", post.savedByMe && "fill-current")} />
           {post.savedByMe ? "Saved" : "Save"}
         </Button>
-        <Button type="button" variant="ghost" size="sm" onClick={() => setReportOpen(true)}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => setReportOpen(true)}
+        >
           <Flag className="size-3.5" />
           Report
         </Button>
@@ -154,7 +188,10 @@ export function PostCard({
           </Button>
         )}
         {compact && (
-          <Link href={`/feed/${post.id}`} className={cn(buttonVariants({ variant: "outline", size: "sm" }), "ml-auto")}>
+          <Link
+            href={`/feed/${post.id}`}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "ml-auto")}
+          >
             Open
           </Link>
         )}
@@ -177,7 +214,11 @@ export function PostCard({
           >
             <FormTextarea control={form.control} name="reason" label="Reason" />
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={() => setReportOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setReportOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit" variant="destructive" disabled={reporting}>

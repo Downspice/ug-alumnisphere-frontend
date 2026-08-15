@@ -20,7 +20,9 @@ export function AlumniCard({
         <div className="space-y-1 min-w-0">
           <h3 className="text-base font-medium text-[#ededed] truncate">{person.name}</h3>
           <p className="text-xs text-[#c2c2c2] line-clamp-2">
-            {person.headline || [person.jobTitle, person.company].filter(Boolean).join(" · ") || "No headline yet"}
+            {person.headline ||
+              [person.jobTitle, person.company].filter(Boolean).join(" · ") ||
+              "No headline yet"}
           </p>
         </div>
         {person.verificationStatus === "verified" && (
@@ -32,7 +34,9 @@ export function AlumniCard({
       </div>
       <div className="flex flex-wrap gap-1.5 text-[11px] text-[#c2c2c2]">
         {person.programme && (
-          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">{person.programme}</span>
+          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">
+            {person.programme}
+          </span>
         )}
         {person.graduationYear && (
           <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">
@@ -40,17 +44,26 @@ export function AlumniCard({
           </span>
         )}
         {person.location && (
-          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">{person.location}</span>
+          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">
+            {person.location}
+          </span>
         )}
         {person.openToMentor && (
-          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">Open to mentor</span>
+          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">
+            Open to mentor
+          </span>
         )}
         {person.openToWork && (
-          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">Open to work</span>
+          <span className="rounded-full border border-[#e5e5e5]/12 px-2 py-0.5">
+            Open to work
+          </span>
         )}
       </div>
       <div className="mt-auto flex items-center justify-between gap-2">
-        <Link href={`/directory/${person.id}`} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+        <Link
+          href={`/directory/${person.id}`}
+          className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+        >
           View profile
         </Link>
         {footer}

@@ -64,7 +64,10 @@ export default function LoginPage() {
 
           <p className="text-xs text-[#686868] text-center">
             New to the network?{" "}
-            <Link href="/register" className="text-[#ededed] underline-offset-4 hover:underline">
+            <Link
+              href="/register"
+              className="text-[#ededed] underline-offset-4 hover:underline"
+            >
               Create an account
             </Link>
           </p>

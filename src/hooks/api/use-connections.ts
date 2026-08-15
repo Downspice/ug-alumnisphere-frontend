@@ -14,7 +14,10 @@ import {
   REMOVE_CONNECTION,
   SEND_CONNECTION_REQUEST,
 } from "@/graphql/mutations";
-import type { ConnectionRecord, SuggestedConnection } from "@/lib/api/services/network.service";
+import type {
+  ConnectionRecord,
+  SuggestedConnection,
+} from "@/lib/api/services/network.service";
 import { toast } from "sonner";
 
 const CONNECTION_QUERIES = [
@@ -25,10 +28,9 @@ const CONNECTION_QUERIES = [
 ];
 
 export function useMyConnections() {
-  const { data, loading, error, refetch } = useQuery<{ myConnections: ConnectionRecord[] }>(
-    GET_MY_CONNECTIONS,
-    { errorPolicy: "all" }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    myConnections: ConnectionRecord[];
+  }>(GET_MY_CONNECTIONS, { errorPolicy: "all" });
   return {
     connections: data?.myConnections ?? [],
     loading,
@@ -74,14 +76,13 @@ export function useSuggestedConnections() {
 }
 
 export function useConnectionStatus(userId?: string) {
-  const { data, loading, refetch } = useQuery<{ connectionStatus: ConnectionRecord | null }>(
-    GET_CONNECTION_STATUS,
-    {
-      variables: { userId },
-      skip: !userId,
-      errorPolicy: "all",
-    }
-  );
+  const { data, loading, refetch } = useQuery<{
+    connectionStatus: ConnectionRecord | null;
+  }>(GET_CONNECTION_STATUS, {
+    variables: { userId },
+    skip: !userId,
+    errorPolicy: "all",
+  });
   return {
     connection: data?.connectionStatus ?? null,
     loading,
@@ -98,17 +99,20 @@ export function useConnectionActions() {
   const [accept, acceptState] = useMutation(ACCEPT_CONNECTION_REQUEST, {
     refetchQueries: CONNECTION_QUERIES,
     onCompleted: () => toast.success("Connection accepted"),
-    onError: (err) => toast.error("Could not accept request", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not accept request", { description: err.message }),
   });
   const [decline, declineState] = useMutation(DECLINE_CONNECTION_REQUEST, {
     refetchQueries: CONNECTION_QUERIES,
     onCompleted: () => toast.success("Request declined"),
-    onError: (err) => toast.error("Could not decline request", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not decline request", { description: err.message }),
   });
   const [remove, removeState] = useMutation(REMOVE_CONNECTION, {
     refetchQueries: CONNECTION_QUERIES,
     onCompleted: () => toast.success("Connection removed"),
-    onError: (err) => toast.error("Could not remove connection", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not remove connection", { description: err.message }),
   });
 
   return {

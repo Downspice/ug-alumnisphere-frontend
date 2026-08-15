@@ -13,7 +13,13 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { useComments, usePostActions } from "@/hooks/api/use-posts";
 import { commentSchema, type CommentFormValues } from "@/lib/validations/social";
 
-export function CommentThread({ postId, communityId }: { postId: string; communityId?: string }) {
+export function CommentThread({
+  postId,
+  communityId,
+}: {
+  postId: string;
+  communityId?: string;
+}) {
   const { user } = useAuth();
   const { comments, loading, error, refetch } = useComments(postId);
   const { addComment, deleteComment, commenting } = usePostActions(communityId, postId);
@@ -24,7 +30,8 @@ export function CommentThread({ postId, communityId }: { postId: string; communi
   });
 
   const roots = comments.filter((item) => !item.parentId);
-  const replies = (parentId: string) => comments.filter((item) => item.parentId === parentId);
+  const replies = (parentId: string) =>
+    comments.filter((item) => item.parentId === parentId);
 
   return (
     <div className="space-y-4">
@@ -59,36 +66,69 @@ export function CommentThread({ postId, communityId }: { postId: string; communi
       {loading ? (
         <LoadingState variant="rows" count={3} message="Loading comments..." />
       ) : error ? (
-        <ErrorState title="Could not load comments" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load comments"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : roots.length === 0 ? (
-        <EmptyState title="No comments yet" description="Be the first to reply to this post." />
+        <EmptyState
+          title="No comments yet"
+          description="Be the first to reply to this post."
+        />
       ) : (
         <div className="space-y-3">
           {roots.map((comment) => (
             <div key={comment.id} className="frosted-glass-card p-4 space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="text-sm font-medium">{comment.author?.name ?? "Alumni"}</div>
-                  <p className="text-sm text-[#c2c2c2] mt-1 whitespace-pre-wrap">{comment.body}</p>
+                  <div className="text-sm font-medium">
+                    {comment.author?.name ?? "Alumni"}
+                  </div>
+                  <p className="text-sm text-[#c2c2c2] mt-1 whitespace-pre-wrap">
+                    {comment.body}
+                  </p>
                 </div>
                 {user?.id === comment.author?.id && (
-                  <Button type="button" variant="ghost" size="sm" onClick={() => deleteComment(comment.id)}>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => deleteComment(comment.id)}
+                  >
                     Delete
                   </Button>
                 )}
               </div>
-              <Button type="button" variant="outline" size="sm" onClick={() => setReplyTo(comment.id)}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setReplyTo(comment.id)}
+              >
                 Reply
               </Button>
               {replies(comment.id).map((reply) => (
-                <div key={reply.id} className="ml-4 border-l border-[#e5e5e5]/12 pl-4 space-y-1">
+                <div
+                  key={reply.id}
+                  className="ml-4 border-l border-[#e5e5e5]/12 pl-4 space-y-1"
+                >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="text-sm font-medium">{reply.author?.name ?? "Alumni"}</div>
-                      <p className="text-sm text-[#c2c2c2] mt-1 whitespace-pre-wrap">{reply.body}</p>
+                      <div className="text-sm font-medium">
+                        {reply.author?.name ?? "Alumni"}
+                      </div>
+                      <p className="text-sm text-[#c2c2c2] mt-1 whitespace-pre-wrap">
+                        {reply.body}
+                      </p>
                     </div>
                     {user?.id === reply.author?.id && (
-                      <Button type="button" variant="ghost" size="sm" onClick={() => deleteComment(reply.id)}>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => deleteComment(reply.id)}
+                      >
                         Delete
                       </Button>
                     )}

@@ -15,7 +15,10 @@ import { LoadingState } from "@/components/ui/loading-state";
 import { AlumniCard } from "@/components/domain/alumni-card";
 import { ConnectionActions } from "@/components/domain/connection-actions";
 import { useAlumniDirectory } from "@/hooks/api/use-directory";
-import { directoryFilterSchema, type DirectoryFilterValues } from "@/lib/validations/network";
+import {
+  directoryFilterSchema,
+  type DirectoryFilterValues,
+} from "@/lib/validations/network";
 import type { DirectoryFilter } from "@/lib/api/services/network.service";
 
 const EMPTY_FILTERS: DirectoryFilterValues = {
@@ -57,7 +60,13 @@ export default function DirectoryPage() {
     return next;
   }, [applied]);
 
-  const { items, page: result, loading, error, refetch } = useAlumniDirectory({
+  const {
+    items,
+    page: result,
+    loading,
+    error,
+    refetch,
+  } = useAlumniDirectory({
     filter,
     sort: applied.sort,
     page,
@@ -86,13 +95,23 @@ export default function DirectoryPage() {
           className="frosted-glass-card p-5 space-y-4"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <FormInput control={form.control} name="query" label="Search" placeholder="Name, headline, company" />
+            <FormInput
+              control={form.control}
+              name="query"
+              label="Search"
+              placeholder="Name, headline, company"
+            />
             <FormInput control={form.control} name="programme" label="Programme" />
             <FormInput control={form.control} name="department" label="Department" />
             <FormInput control={form.control} name="industry" label="Industry" />
             <FormInput control={form.control} name="location" label="Location" />
             <FormInput control={form.control} name="skill" label="Skill" />
-            <FormInput control={form.control} name="graduationYear" label="Graduation year" placeholder="2018" />
+            <FormInput
+              control={form.control}
+              name="graduationYear"
+              label="Graduation year"
+              placeholder="2018"
+            />
             <FormSelect
               control={form.control}
               name="verificationStatus"
@@ -117,7 +136,11 @@ export default function DirectoryPage() {
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormSwitch control={form.control} name="openToMentor" label="Open to mentor" />
+            <FormSwitch
+              control={form.control}
+              name="openToMentor"
+              label="Open to mentor"
+            />
             <FormSwitch control={form.control} name="openToWork" label="Open to work" />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -150,7 +173,11 @@ export default function DirectoryPage() {
       {loading ? (
         <LoadingState variant="cards" count={6} message="Searching the directory..." />
       ) : error ? (
-        <ErrorState title="Directory unavailable" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Directory unavailable"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : items.length === 0 ? (
         <EmptyState
           title="No alumni match those filters"

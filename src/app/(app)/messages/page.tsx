@@ -38,7 +38,8 @@ export default function MessagesPage() {
       <div>
         <h1 className="text-3xl font-medium tracking-tight">Messages</h1>
         <p className="text-sm text-[#c2c2c2] mt-1">
-          Async direct messages with people you are connected to. Threads refresh automatically — no live sockets.
+          Async direct messages with people you are connected to. Threads refresh
+          automatically — no live sockets.
         </p>
       </div>
 
@@ -63,7 +64,11 @@ export default function MessagesPage() {
       {loading ? (
         <LoadingState variant="rows" count={4} message="Loading conversations..." />
       ) : error ? (
-        <ErrorState title="Could not load messages" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load messages"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : rows.length === 0 ? (
         <EmptyState
           title="No conversations yet"

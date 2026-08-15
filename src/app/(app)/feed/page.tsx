@@ -39,7 +39,8 @@ export default function FeedPage() {
       <div>
         <h1 className="text-3xl font-medium tracking-tight">Feed</h1>
         <p className="text-sm text-[#c2c2c2] mt-1">
-          Chronological updates from the main alumni feed. Community posts live inside each community.
+          Chronological updates from the main alumni feed. Community posts live inside
+          each community.
         </p>
       </div>
 
@@ -76,7 +77,11 @@ export default function FeedPage() {
           {feed.loading ? (
             <LoadingState variant="cards" count={3} message="Loading the feed..." />
           ) : feed.error ? (
-            <ErrorState title="Could not load the feed" message={feed.error} onRetry={() => feed.refetch()} />
+            <ErrorState
+              title="Could not load the feed"
+              message={feed.error}
+              onRetry={() => feed.refetch()}
+            />
           ) : filtered.length === 0 ? (
             <EmptyState
               title={query ? "No matching posts" : "The feed is quiet"}
@@ -95,9 +100,16 @@ export default function FeedPage() {
           {saved.loading ? (
             <LoadingState variant="cards" count={2} message="Loading saved posts..." />
           ) : saved.error ? (
-            <ErrorState title="Could not load saved posts" message={saved.error} onRetry={() => saved.refetch()} />
+            <ErrorState
+              title="Could not load saved posts"
+              message={saved.error}
+              onRetry={() => saved.refetch()}
+            />
           ) : saved.posts.length === 0 ? (
-            <EmptyState title="Nothing saved" description="Save a post from the feed to find it later." />
+            <EmptyState
+              title="Nothing saved"
+              description="Save a post from the feed to find it later."
+            />
           ) : (
             <div className="space-y-4">
               {saved.posts.map((post) => (

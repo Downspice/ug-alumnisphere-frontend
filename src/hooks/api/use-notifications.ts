@@ -7,10 +7,9 @@ import type { AppNotification } from "@/lib/api/services/giving.service";
 import { toast } from "sonner";
 
 export function useNotifications() {
-  const { data, loading, error, refetch } = useQuery<{ notifications: AppNotification[] }>(
-    GET_NOTIFICATIONS,
-    { pollInterval: 15000, errorPolicy: "all" }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    notifications: AppNotification[];
+  }>(GET_NOTIFICATIONS, { pollInterval: 15000, errorPolicy: "all" });
   return {
     notifications: data?.notifications ?? [],
     loading,
@@ -20,10 +19,13 @@ export function useNotifications() {
 }
 
 export function useUnreadCount() {
-  const { data, refetch } = useQuery<{ unreadNotificationCount: number }>(GET_UNREAD_COUNT, {
-    pollInterval: 15000,
-    errorPolicy: "all",
-  });
+  const { data, refetch } = useQuery<{ unreadNotificationCount: number }>(
+    GET_UNREAD_COUNT,
+    {
+      pollInterval: 15000,
+      errorPolicy: "all",
+    }
+  );
   return { count: data?.unreadNotificationCount ?? 0, refetch };
 }
 
@@ -36,7 +38,8 @@ export function useNotificationActions() {
   const [markAll, allState] = useMutation(MARK_ALL_NOTIFICATIONS_READ, {
     refetchQueries,
     onCompleted: () => toast.success("All notifications marked read"),
-    onError: (err) => toast.error("Could not update notifications", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not update notifications", { description: err.message }),
   });
   return {
     markRead: (id: string) => markOne({ variables: { id } }),

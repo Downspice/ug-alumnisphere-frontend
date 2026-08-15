@@ -18,10 +18,16 @@ export default function NotificationsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Notifications</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Unread items poll every 15 seconds. Open a notification to jump to the related screen.
+            Unread items poll every 15 seconds. Open a notification to jump to the related
+            screen.
           </p>
         </div>
-        <Button type="button" variant="outline" disabled={markingAll} onClick={() => markAllRead()}>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={markingAll}
+          onClick={() => markAllRead()}
+        >
           Mark all read
         </Button>
       </div>
@@ -29,9 +35,16 @@ export default function NotificationsPage() {
       {loading ? (
         <LoadingState variant="rows" count={4} message="Loading notifications..." />
       ) : error ? (
-        <ErrorState title="Could not load notifications" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load notifications"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : notifications.length === 0 ? (
-        <EmptyState title="Inbox is empty" description="Connection, verification, job, mentorship, and giving events appear here." />
+        <EmptyState
+          title="Inbox is empty"
+          description="Connection, verification, job, mentorship, and giving events appear here."
+        />
       ) : (
         <div className="space-y-3">
           {notifications.map((item) => (
@@ -48,7 +61,12 @@ export default function NotificationsPage() {
                   <p className="text-xs text-[#c2c2c2] mt-1">{item.body}</p>
                 </div>
                 {!item.read && (
-                  <Button type="button" size="sm" variant="outline" onClick={() => markRead(item.id)}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => markRead(item.id)}
+                  >
                     Mark read
                   </Button>
                 )}

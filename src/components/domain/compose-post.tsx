@@ -54,7 +54,10 @@ export function ComposePost({ communityId }: { communityId?: string }) {
               imageFileId = (await uploadFile(image, "post")).id;
             } catch (error) {
               toast.error("Could not upload image", {
-                description: error instanceof Error ? error.message : "Try a smaller JPEG, PNG, WebP, or GIF.",
+                description:
+                  error instanceof Error
+                    ? error.message
+                    : "Try a smaller JPEG, PNG, WebP, or GIF.",
               });
               return;
             } finally {
@@ -93,7 +96,9 @@ export function ComposePost({ communityId }: { communityId?: string }) {
           name="body"
           label={type === "poll" ? "Context (optional)" : "Write a post"}
           placeholder={
-            communityId ? "Share something with this community" : "Share an update with alumni"
+            communityId
+              ? "Share something with this community"
+              : "Share an update with alumni"
           }
         />
         {type === "image" && (
@@ -124,8 +129,16 @@ export function ComposePost({ communityId }: { communityId?: string }) {
             />
             <FormInput control={form.control} name="option1" label="Option 1" />
             <FormInput control={form.control} name="option2" label="Option 2" />
-            <FormInput control={form.control} name="option3" label="Option 3 (optional)" />
-            <FormInput control={form.control} name="option4" label="Option 4 (optional)" />
+            <FormInput
+              control={form.control}
+              name="option3"
+              label="Option 3 (optional)"
+            />
+            <FormInput
+              control={form.control}
+              name="option4"
+              label="Option 4 (optional)"
+            />
             <FormDatePicker
               control={form.control}
               name="pollClosesAt"

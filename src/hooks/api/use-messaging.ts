@@ -3,7 +3,11 @@
 import { useCallback } from "react";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { GET_CONVERSATION, GET_CONVERSATIONS, GET_MESSAGES } from "@/graphql/queries";
-import { MARK_CONVERSATION_READ, SEND_MESSAGE, START_CONVERSATION } from "@/graphql/mutations";
+import {
+  MARK_CONVERSATION_READ,
+  SEND_MESSAGE,
+  START_CONVERSATION,
+} from "@/graphql/mutations";
 import type { ChatMessage, Conversation } from "@/lib/api/services/social.service";
 import { toast } from "sonner";
 
@@ -27,15 +31,14 @@ export function useConversations(search?: string) {
 }
 
 export function useConversation(id?: string) {
-  const { data, loading, error, refetch } = useQuery<{ conversation: Conversation | null }>(
-    GET_CONVERSATION,
-    {
-      variables: { id },
-      skip: !id,
-      pollInterval: 10000,
-      errorPolicy: "all",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    conversation: Conversation | null;
+  }>(GET_CONVERSATION, {
+    variables: { id },
+    skip: !id,
+    pollInterval: 10000,
+    errorPolicy: "all",
+  });
   return {
     conversation: data?.conversation ?? null,
     loading,
@@ -45,12 +48,15 @@ export function useConversation(id?: string) {
 }
 
 export function useMessages(conversationId?: string) {
-  const { data, loading, error, refetch } = useQuery<{ messages: ChatMessage[] }>(GET_MESSAGES, {
-    variables: { conversationId },
-    skip: !conversationId,
-    pollInterval: 8000,
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ messages: ChatMessage[] }>(
+    GET_MESSAGES,
+    {
+      variables: { conversationId },
+      skip: !conversationId,
+      pollInterval: 8000,
+      errorPolicy: "all",
+    }
+  );
   return {
     messages: data?.messages ?? [],
     loading,
@@ -60,10 +66,14 @@ export function useMessages(conversationId?: string) {
 }
 
 export function useMessagingActions() {
-  const [start, startState] = useMutation<{ startConversation: Conversation }>(START_CONVERSATION, {
-    refetchQueries: CONVERSATION_QUERIES,
-    onError: (err) => toast.error("Could not open conversation", { description: err.message }),
-  });
+  const [start, startState] = useMutation<{ startConversation: Conversation }>(
+    START_CONVERSATION,
+    {
+      refetchQueries: CONVERSATION_QUERIES,
+      onError: (err) =>
+        toast.error("Could not open conversation", { description: err.message }),
+    }
+  );
   const [send, sendState] = useMutation(SEND_MESSAGE, {
     refetchQueries: CONVERSATION_QUERIES,
     onError: (err) => toast.error("Could not send message", { description: err.message }),
@@ -80,7 +90,10 @@ export function useMessagingActions() {
     sendMessage: (conversationId: string, body: string) =>
       send({
         variables: { conversationId, body },
-        refetchQueries: [...CONVERSATION_QUERIES, { query: GET_MESSAGES, variables: { conversationId } }],
+        refetchQueries: [
+          ...CONVERSATION_QUERIES,
+          { query: GET_MESSAGES, variables: { conversationId } },
+        ],
       }),
     markRead: useCallback(
       (conversationId: string) => markRead({ variables: { conversationId } }),

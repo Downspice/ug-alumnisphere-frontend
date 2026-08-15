@@ -15,7 +15,9 @@ export function PublicHeader() {
           <div className="h-8 w-8 rounded-[10px] bg-white text-[#161616] flex items-center justify-center font-medium text-xs tracking-tight">
             UG
           </div>
-          <div className="font-medium text-sm text-[#ededed] tracking-tight">AlumniSphere</div>
+          <div className="font-medium text-sm text-[#ededed] tracking-tight">
+            AlumniSphere
+          </div>
         </Link>
 
         <div className="flex items-center gap-2">
@@ -27,7 +29,10 @@ export function PublicHeader() {
             <>
               <Link
                 href="/login"
-                className={cn(buttonVariants({ variant: "ghost" }), "hidden sm:inline-flex")}
+                className={cn(
+                  buttonVariants({ variant: "ghost" }),
+                  "hidden sm:inline-flex"
+                )}
               >
                 Sign in
               </Link>

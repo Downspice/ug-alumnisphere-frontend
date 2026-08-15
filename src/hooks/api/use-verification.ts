@@ -1,7 +1,11 @@
 "use client";
 
 import { useMutation, useQuery } from "@apollo/client/react";
-import { GET_ME, GET_MY_VERIFICATION, GET_VERIFICATION_REQUESTS } from "@/graphql/queries";
+import {
+  GET_ME,
+  GET_MY_VERIFICATION,
+  GET_VERIFICATION_REQUESTS,
+} from "@/graphql/queries";
 import { REVIEW_VERIFICATION, SUBMIT_VERIFICATION } from "@/graphql/mutations";
 import type { VerificationRequest } from "@/lib/api/services/network.service";
 import type { VerificationStatus } from "@/lib/api/services/auth.service";
@@ -45,7 +49,8 @@ export function useSubmitVerification(onSuccess?: () => void) {
       });
       onSuccess?.();
     },
-    onError: (err) => toast.error("Could not submit verification", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not submit verification", { description: err.message }),
   });
 
   return {

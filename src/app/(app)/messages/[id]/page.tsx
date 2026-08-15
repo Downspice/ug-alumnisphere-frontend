@@ -12,7 +12,11 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorState } from "@/components/ui/error-state";
 import { LoadingState } from "@/components/ui/loading-state";
 import { useAuth } from "@/components/providers/auth-provider";
-import { useConversation, useMessages, useMessagingActions } from "@/hooks/api/use-messaging";
+import {
+  useConversation,
+  useMessages,
+  useMessagingActions,
+} from "@/hooks/api/use-messaging";
 import { messageSchema, type MessageFormValues } from "@/lib/validations/social";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +35,9 @@ export default function ConversationPage() {
     if (params.id) void markRead(params.id);
   }, [params.id, markRead]);
 
-  const other = conversationQuery.conversation?.participants.find((person) => person.id !== user?.id);
+  const other = conversationQuery.conversation?.participants.find(
+    (person) => person.id !== user?.id
+  );
 
   if (conversationQuery.loading) {
     return <LoadingState variant="rows" count={4} message="Opening conversation..." />;
@@ -63,12 +69,17 @@ export default function ConversationPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-medium tracking-tight">{other?.name ?? "Conversation"}</h1>
+          <h1 className="text-3xl font-medium tracking-tight">
+            {other?.name ?? "Conversation"}
+          </h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
             Messages refresh every few seconds. This is not a live chat.
           </p>
         </div>
-        <Link href="/messages" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+        <Link
+          href="/messages"
+          className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+        >
           All messages
         </Link>
       </div>
@@ -82,13 +93,19 @@ export default function ConversationPage() {
           onRetry={() => messagesQuery.refetch()}
         />
       ) : messagesQuery.messages.length === 0 ? (
-        <EmptyState title="No messages yet" description="Send the first note in this thread." />
+        <EmptyState
+          title="No messages yet"
+          description="Send the first note in this thread."
+        />
       ) : (
         <div className="space-y-3">
           {messagesQuery.messages.map((message) => {
             const mine = message.sender.id === user?.id;
             return (
-              <div key={message.id} className={cn("flex", mine ? "justify-end" : "justify-start")}>
+              <div
+                key={message.id}
+                className={cn("flex", mine ? "justify-end" : "justify-start")}
+              >
                 <div
                   className={cn(
                     "max-w-[80%] rounded-[20px] px-4 py-3 text-sm",
@@ -114,7 +131,12 @@ export default function ConversationPage() {
           })}
           className="frosted-glass-card p-4 space-y-3"
         >
-          <FormTextarea control={form.control} name="body" label="Message" placeholder="Write a message" />
+          <FormTextarea
+            control={form.control}
+            name="body"
+            label="Message"
+            placeholder="Write a message"
+          />
           <div className="flex justify-end">
             <Button type="submit" disabled={sending}>
               {sending ? "Sending…" : "Send"}

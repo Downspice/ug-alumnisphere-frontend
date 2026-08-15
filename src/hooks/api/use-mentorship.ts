@@ -26,27 +26,38 @@ const MENTORSHIP_QUERIES = [
   { query: GET_MY_MENTORSHIPS },
 ];
 
-export function useMentors(filters: { search?: string; industry?: string; location?: string }) {
-  const { data, loading, error, refetch } = useQuery<{ mentors: DirectoryUser[] }>(GET_MENTORS, {
-    variables: {
-      search: filters.search || undefined,
-      industry: filters.industry || undefined,
-      location: filters.location || undefined,
-    },
-    errorPolicy: "all",
-  });
-  return { mentors: data?.mentors ?? [], loading, error: error?.message ?? null, refetch };
-}
-
-export function useMentorshipRequestStatus(userId?: string) {
-  const { data, loading, refetch } = useQuery<{ mentorshipRequestStatus: MentorshipRequest | null }>(
-    GET_MENTORSHIP_REQUEST_STATUS,
+export function useMentors(filters: {
+  search?: string;
+  industry?: string;
+  location?: string;
+}) {
+  const { data, loading, error, refetch } = useQuery<{ mentors: DirectoryUser[] }>(
+    GET_MENTORS,
     {
-      variables: { userId },
-      skip: !userId,
+      variables: {
+        search: filters.search || undefined,
+        industry: filters.industry || undefined,
+        location: filters.location || undefined,
+      },
       errorPolicy: "all",
     }
   );
+  return {
+    mentors: data?.mentors ?? [],
+    loading,
+    error: error?.message ?? null,
+    refetch,
+  };
+}
+
+export function useMentorshipRequestStatus(userId?: string) {
+  const { data, loading, refetch } = useQuery<{
+    mentorshipRequestStatus: MentorshipRequest | null;
+  }>(GET_MENTORSHIP_REQUEST_STATUS, {
+    variables: { userId },
+    skip: !userId,
+    errorPolicy: "all",
+  });
   return { request: data?.mentorshipRequestStatus ?? null, loading, refetch };
 }
 
@@ -63,10 +74,9 @@ export function useIncomingMentorship() {
 }
 
 export function useSentMentorship() {
-  const { data, loading, error, refetch } = useQuery<{ sentMentorshipRequests: MentorshipRequest[] }>(
-    GET_SENT_MENTORSHIP,
-    { errorPolicy: "all" }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    sentMentorshipRequests: MentorshipRequest[];
+  }>(GET_SENT_MENTORSHIP, { errorPolicy: "all" });
   return {
     requests: data?.sentMentorshipRequests ?? [],
     loading,
@@ -120,7 +130,8 @@ export function useMentorshipActions(userId?: string) {
   const [close, closeState] = useMutation(CLOSE_MENTORSHIP, {
     refetchQueries: MENTORSHIP_QUERIES,
     onCompleted: () => toast.success("Mentorship closed"),
-    onError: (err) => toast.error("Could not close mentorship", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not close mentorship", { description: err.message }),
   });
 
   return {
@@ -128,7 +139,8 @@ export function useMentorshipActions(userId?: string) {
       request({ variables: { mentorId, message } }),
     acceptRequest: (id: string) => accept({ variables: { id } }),
     declineRequest: (id: string) => decline({ variables: { id } }),
-    addGoal: (mentorshipId: string, text: string) => addGoal({ variables: { mentorshipId, text } }),
+    addGoal: (mentorshipId: string, text: string) =>
+      addGoal({ variables: { mentorshipId, text } }),
     toggleGoal: (mentorshipId: string, goalId: string) =>
       toggleGoal({ variables: { mentorshipId, goalId } }),
     closeMentorship: (id: string) => close({ variables: { id } }),

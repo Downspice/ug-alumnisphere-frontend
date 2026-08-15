@@ -63,24 +63,34 @@ export function useJob(id?: string) {
 }
 
 export function useSavedJobs() {
-  const { data, loading, error, refetch } = useQuery<{ savedJobs: Job[] }>(GET_SAVED_JOBS, {
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ savedJobs: Job[] }>(
+    GET_SAVED_JOBS,
+    {
+      errorPolicy: "all",
+    }
+  );
   return { jobs: data?.savedJobs ?? [], loading, error: error?.message ?? null, refetch };
 }
 
 export function useMyPostedJobs() {
-  const { data, loading, error, refetch } = useQuery<{ myPostedJobs: Job[] }>(GET_MY_POSTED_JOBS, {
-    errorPolicy: "all",
-  });
-  return { jobs: data?.myPostedJobs ?? [], loading, error: error?.message ?? null, refetch };
+  const { data, loading, error, refetch } = useQuery<{ myPostedJobs: Job[] }>(
+    GET_MY_POSTED_JOBS,
+    {
+      errorPolicy: "all",
+    }
+  );
+  return {
+    jobs: data?.myPostedJobs ?? [],
+    loading,
+    error: error?.message ?? null,
+    refetch,
+  };
 }
 
 export function useMyJobApplications() {
-  const { data, loading, error, refetch } = useQuery<{ myJobApplications: JobApplication[] }>(
-    GET_MY_JOB_APPLICATIONS,
-    { errorPolicy: "all" }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    myJobApplications: JobApplication[];
+  }>(GET_MY_JOB_APPLICATIONS, { errorPolicy: "all" });
   return {
     applications: data?.myJobApplications ?? [],
     loading,
@@ -90,14 +100,13 @@ export function useMyJobApplications() {
 }
 
 export function useJobApplications(jobId?: string) {
-  const { data, loading, error, refetch } = useQuery<{ jobApplications: JobApplication[] }>(
-    GET_JOB_APPLICATIONS,
-    {
-      variables: { jobId },
-      skip: !jobId,
-      errorPolicy: "all",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    jobApplications: JobApplication[];
+  }>(GET_JOB_APPLICATIONS, {
+    variables: { jobId },
+    skip: !jobId,
+    errorPolicy: "all",
+  });
   return {
     applications: data?.jobApplications ?? [],
     loading,
@@ -139,7 +148,8 @@ export function useJobActions(jobId?: string) {
   const [updateStatus, statusState] = useMutation(UPDATE_APPLICATION_STATUS, {
     refetchQueries,
     onCompleted: () => toast.success("Application updated"),
-    onError: (err) => toast.error("Could not update status", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not update status", { description: err.message }),
   });
   const [save] = useMutation(TOGGLE_SAVE_JOB, {
     refetchQueries,

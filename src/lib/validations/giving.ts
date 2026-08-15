@@ -6,7 +6,11 @@ export const campaignFilterSchema = z.object({
 
 export const campaignSchema = z.object({
   title: z.string().trim().min(3, "Title is required").max(140),
-  description: z.string().trim().min(20, "Describe the campaign in at least 20 characters").max(4000),
+  description: z
+    .string()
+    .trim()
+    .min(20, "Describe the campaign in at least 20 characters")
+    .max(4000),
   goalAmount: z.string().min(1, "Goal is required"),
   deadline: z.string().optional(),
 });

@@ -62,7 +62,13 @@ export interface VerificationRequest {
   createdAt: string;
   applicant?: Pick<
     AuthUser,
-    "id" | "name" | "email" | "role" | "verificationStatus" | "programme" | "graduationYear"
+    | "id"
+    | "name"
+    | "email"
+    | "role"
+    | "verificationStatus"
+    | "programme"
+    | "graduationYear"
   >;
 }
 

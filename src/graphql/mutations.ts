@@ -208,7 +208,11 @@ export const REVIEW_JOIN_REQUEST = gql`
 
 export const ASSIGN_MODERATOR = gql`
   mutation AssignModerator($communityId: ID!, $userId: ID!, $makeModerator: Boolean!) {
-    assignModerator(communityId: $communityId, userId: $userId, makeModerator: $makeModerator) {
+    assignModerator(
+      communityId: $communityId
+      userId: $userId
+      makeModerator: $makeModerator
+    ) {
       id
       role
     }
@@ -497,8 +501,18 @@ export const CLOSE_CAMPAIGN = gql`
 `;
 
 export const RECORD_CONTRIBUTION = gql`
-  mutation RecordContribution($campaignId: ID!, $amount: Float!, $anonymous: Boolean, $note: String) {
-    recordContribution(campaignId: $campaignId, amount: $amount, anonymous: $anonymous, note: $note) {
+  mutation RecordContribution(
+    $campaignId: ID!
+    $amount: Float!
+    $anonymous: Boolean
+    $note: String
+  ) {
+    recordContribution(
+      campaignId: $campaignId
+      amount: $amount
+      anonymous: $anonymous
+      note: $note
+    ) {
       id
       amount
       status

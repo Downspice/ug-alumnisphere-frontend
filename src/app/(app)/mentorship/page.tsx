@@ -18,7 +18,10 @@ import {
   useMyMentorships,
   useSentMentorship,
 } from "@/hooks/api/use-mentorship";
-import { mentorshipGoalSchema, type MentorshipGoalValues } from "@/lib/validations/career";
+import {
+  mentorshipGoalSchema,
+  type MentorshipGoalValues,
+} from "@/lib/validations/career";
 
 function GoalForm({
   mentorshipId,
@@ -42,7 +45,12 @@ function GoalForm({
         })}
         className="flex flex-col sm:flex-row gap-3"
       >
-        <FormInput control={form.control} name="text" placeholder="Add a goal" containerClassName="flex-1" />
+        <FormInput
+          control={form.control}
+          name="text"
+          placeholder="Add a goal"
+          containerClassName="flex-1"
+        />
         <Button type="submit" variant="outline" disabled={adding}>
           Add goal
         </Button>
@@ -56,15 +64,24 @@ export default function MentorshipPage() {
   const incoming = useIncomingMentorship();
   const sent = useSentMentorship();
   const mine = useMyMentorships();
-  const { acceptRequest, declineRequest, addGoal, toggleGoal, closeMentorship, deciding, addingGoal, closing } =
-    useMentorshipActions();
+  const {
+    acceptRequest,
+    declineRequest,
+    addGoal,
+    toggleGoal,
+    closeMentorship,
+    deciding,
+    addingGoal,
+    closing,
+  } = useMentorshipActions();
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-medium tracking-tight">Mentorship</h1>
         <p className="text-sm text-[#c2c2c2] mt-1">
-          Review requests, keep a short goal list, and close the relationship when it is done.
+          Review requests, keep a short goal list, and close the relationship when it is
+          done.
         </p>
       </div>
 
@@ -85,7 +102,11 @@ export default function MentorshipPage() {
           {mine.loading ? (
             <LoadingState variant="cards" count={2} message="Loading mentorships..." />
           ) : mine.error ? (
-            <ErrorState title="Could not load mentorships" message={mine.error} onRetry={() => mine.refetch()} />
+            <ErrorState
+              title="Could not load mentorships"
+              message={mine.error}
+              onRetry={() => mine.refetch()}
+            />
           ) : mine.mentorships.length === 0 ? (
             <EmptyState
               title="No mentorships yet"
@@ -98,7 +119,9 @@ export default function MentorshipPage() {
                 <article key={item.id} className="frosted-glass-card p-5 space-y-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="text-sm font-medium">{other?.name ?? "Mentorship"}</div>
+                      <div className="text-sm font-medium">
+                        {other?.name ?? "Mentorship"}
+                      </div>
                       <div className="text-xs text-[#686868]">
                         Mentor: {item.mentor?.name} · Mentee: {item.mentee?.name}
                       </div>
@@ -109,7 +132,9 @@ export default function MentorshipPage() {
                   </div>
                   <div className="space-y-2">
                     {item.goals.length === 0 ? (
-                      <p className="text-sm text-[#c2c2c2]">No goals yet. Add one below.</p>
+                      <p className="text-sm text-[#c2c2c2]">
+                        No goals yet. Add one below.
+                      </p>
                     ) : (
                       item.goals.map((goal) => (
                         <Button
@@ -126,7 +151,11 @@ export default function MentorshipPage() {
                     )}
                   </div>
                   {item.status === "active" && (
-                    <GoalForm mentorshipId={item.id} onAdd={addGoal} adding={addingGoal} />
+                    <GoalForm
+                      mentorshipId={item.id}
+                      onAdd={addGoal}
+                      adding={addingGoal}
+                    />
                   )}
                   {item.status === "active" && (
                     <Button
@@ -148,9 +177,16 @@ export default function MentorshipPage() {
           {incoming.loading ? (
             <LoadingState variant="rows" count={2} message="Loading requests..." />
           ) : incoming.error ? (
-            <ErrorState title="Could not load requests" message={incoming.error} onRetry={() => incoming.refetch()} />
+            <ErrorState
+              title="Could not load requests"
+              message={incoming.error}
+              onRetry={() => incoming.refetch()}
+            />
           ) : incoming.requests.length === 0 ? (
-            <EmptyState title="No incoming requests" description="When someone asks you to mentor, they appear here." />
+            <EmptyState
+              title="No incoming requests"
+              description="When someone asks you to mentor, they appear here."
+            />
           ) : (
             <div className="space-y-3">
               {incoming.requests.map((request) =>
@@ -193,13 +229,23 @@ export default function MentorshipPage() {
           {sent.loading ? (
             <LoadingState variant="rows" count={2} message="Loading sent requests..." />
           ) : sent.error ? (
-            <ErrorState title="Could not load sent requests" message={sent.error} onRetry={() => sent.refetch()} />
+            <ErrorState
+              title="Could not load sent requests"
+              message={sent.error}
+              onRetry={() => sent.refetch()}
+            />
           ) : sent.requests.length === 0 ? (
-            <EmptyState title="No sent requests" description="Browse mentors and send a request when you are ready." />
+            <EmptyState
+              title="No sent requests"
+              description="Browse mentors and send a request when you are ready."
+            />
           ) : (
             <div className="space-y-3">
               {sent.requests.map((request) => (
-                <article key={request.id} className="frosted-glass-card p-4 flex items-center justify-between gap-3">
+                <article
+                  key={request.id}
+                  className="frosted-glass-card p-4 flex items-center justify-between gap-3"
+                >
                   <div>
                     <div className="text-sm font-medium">{request.mentor?.name}</div>
                     <p className="text-xs text-[#c2c2c2]">{request.message}</p>

@@ -5,7 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/auth-provider";
-import { useReviewVerification, useVerificationRequests } from "@/hooks/api/use-verification";
+import {
+  useReviewVerification,
+  useVerificationRequests,
+} from "@/hooks/api/use-verification";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { authorizedFileUrl } from "@/lib/api/upload";
 import { cn } from "@/lib/utils";
@@ -47,14 +50,19 @@ export default function AdminVerificationPage() {
       <div>
         <h1 className="text-3xl font-medium tracking-tight">Alumni verification</h1>
         <p className="text-sm text-[#c2c2c2] mt-1">
-          Approve or reject pending identity requests. Supporting documents stay private to administrators.
+          Approve or reject pending identity requests. Supporting documents stay private
+          to administrators.
         </p>
       </div>
 
       {loading ? (
         <LoadingState variant="rows" count={3} message="Loading requests..." />
       ) : error ? (
-        <ErrorState title="Could not load requests" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load requests"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : requests.length === 0 ? (
         <EmptyState
           title="No pending requests"
@@ -97,7 +105,9 @@ export default function AdminVerificationPage() {
                     Open {request.documentFileName || "document"}
                   </a>
                 ) : (
-                  <p className="text-[11px] text-[#686868]">No supporting document uploaded.</p>
+                  <p className="text-[11px] text-[#686868]">
+                    No supporting document uploaded.
+                  </p>
                 )}
               </div>
               <div className="flex flex-wrap gap-2">

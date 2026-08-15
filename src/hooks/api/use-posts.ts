@@ -12,7 +12,11 @@ import {
   TOGGLE_SAVE_POST,
   VOTE_POLL,
 } from "@/graphql/mutations";
-import type { CreatePostInput, Post, PostComment } from "@/lib/api/services/social.service";
+import type {
+  CreatePostInput,
+  Post,
+  PostComment,
+} from "@/lib/api/services/social.service";
 import { toast } from "sonner";
 
 function postQueries(communityId?: string, postId?: string) {
@@ -58,11 +62,14 @@ export function usePost(id?: string) {
 }
 
 export function useComments(postId?: string) {
-  const { data, loading, error, refetch } = useQuery<{ comments: PostComment[] }>(GET_COMMENTS, {
-    variables: { postId },
-    skip: !postId,
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ comments: PostComment[] }>(
+    GET_COMMENTS,
+    {
+      variables: { postId },
+      skip: !postId,
+      errorPolicy: "all",
+    }
+  );
   return {
     comments: data?.comments ?? [],
     loading,
@@ -72,9 +79,12 @@ export function useComments(postId?: string) {
 }
 
 export function useSavedPosts() {
-  const { data, loading, error, refetch } = useQuery<{ savedPosts: Post[] }>(GET_SAVED_POSTS, {
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ savedPosts: Post[] }>(
+    GET_SAVED_POSTS,
+    {
+      errorPolicy: "all",
+    }
+  );
   return {
     posts: data?.savedPosts ?? [],
     loading,
@@ -107,7 +117,8 @@ export function usePostActions(communityId?: string, postId?: string) {
   const [removeComment] = useMutation(DELETE_COMMENT, {
     refetchQueries,
     onCompleted: () => toast.success("Comment deleted"),
-    onError: (err) => toast.error("Could not delete comment", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not delete comment", { description: err.message }),
   });
   const [save] = useMutation(TOGGLE_SAVE_POST, {
     refetchQueries,
@@ -133,7 +144,8 @@ export function usePostActions(communityId?: string, postId?: string) {
     toggleSave: (id: string) => save({ variables: { postId: id } }),
     reportContent: (targetType: "post" | "comment", targetId: string, reason: string) =>
       report({ variables: { targetType, targetId, reason } }),
-    votePoll: (id: string, optionIndex: number) => vote({ variables: { postId: id, optionIndex } }),
+    votePoll: (id: string, optionIndex: number) =>
+      vote({ variables: { postId: id, optionIndex } }),
     creating: createState.loading,
     deleting: removeState.loading,
     commenting: commentState.loading,

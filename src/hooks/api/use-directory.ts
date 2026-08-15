@@ -38,14 +38,13 @@ export function useAlumniDirectory(options: {
 }
 
 export function usePublicProfile(id: string) {
-  const { data, loading, error, refetch } = useQuery<{ publicProfile: DirectoryUser | null }>(
-    GET_PUBLIC_PROFILE,
-    {
-      variables: { id },
-      skip: !id,
-      errorPolicy: "all",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    publicProfile: DirectoryUser | null;
+  }>(GET_PUBLIC_PROFILE, {
+    variables: { id },
+    skip: !id,
+    errorPolicy: "all",
+  });
 
   return {
     profile: data?.publicProfile ?? null,

@@ -61,7 +61,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (!payload) return false;
         persistSession(payload.token);
         await refetch();
-        toast.success("Account created", { description: "Your AlumniSphere workspace is ready." });
+        toast.success("Account created", {
+          description: "Your AlumniSphere workspace is ready.",
+        });
         router.push("/home");
         return true;
       } catch (error) {
@@ -95,7 +97,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logout,
       refetchUser: refetch,
     }),
-    [hasToken, loading, login, loginLoading, logout, refetch, register, registerLoading, user]
+    [
+      hasToken,
+      loading,
+      login,
+      loginLoading,
+      logout,
+      refetch,
+      register,
+      registerLoading,
+      user,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

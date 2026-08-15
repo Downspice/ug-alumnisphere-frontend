@@ -8,8 +8,14 @@ import { Form } from "@/components/ui/form";
 import { FormTextarea } from "@/components/forms/form-textarea";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { useAuth } from "@/components/providers/auth-provider";
-import { useMentorshipActions, useMentorshipRequestStatus } from "@/hooks/api/use-mentorship";
-import { mentorshipRequestSchema, type MentorshipRequestValues } from "@/lib/validations/career";
+import {
+  useMentorshipActions,
+  useMentorshipRequestStatus,
+} from "@/hooks/api/use-mentorship";
+import {
+  mentorshipRequestSchema,
+  type MentorshipRequestValues,
+} from "@/lib/validations/career";
 
 export function MentorRequestButton({
   mentorId,
@@ -48,7 +54,11 @@ export function MentorRequestButton({
 
   return (
     <>
-      <Button type="button" size={compact ? "sm" : "default"} onClick={() => setOpen(true)}>
+      <Button
+        type="button"
+        size={compact ? "sm" : "default"}
+        onClick={() => setOpen(true)}
+      >
         Request mentor
       </Button>
       <ResponsiveModal

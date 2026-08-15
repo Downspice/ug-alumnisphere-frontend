@@ -18,7 +18,10 @@ export const verificationSchema = z.object({
   graduationYear: z
     .string()
     .regex(/^\d{4}$/, "Enter a four-digit year")
-    .refine((value) => Number(value) >= 1950 && Number(value) <= 2100, "Year must be 1950–2100"),
+    .refine(
+      (value) => Number(value) >= 1950 && Number(value) <= 2100,
+      "Year must be 1950–2100"
+    ),
   programme: z.string().min(2, "Programme is required"),
   studentNumber: z.string().min(3, "Student or index number is required"),
   notes: z.string().max(1000).optional(),

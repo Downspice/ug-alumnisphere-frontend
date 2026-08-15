@@ -33,8 +33,16 @@ export default function AdminEventsPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
   const { events, loading, error, refetch } = useEvents({ includeUnpublished: true });
-  const { createEvent, updateEvent, publishEvent, cancelEvent, creating, updating, publishing, cancelling } =
-    useEventActions();
+  const {
+    createEvent,
+    updateEvent,
+    publishEvent,
+    cancelEvent,
+    creating,
+    updating,
+    publishing,
+    cancelling,
+  } = useEventActions();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<AlumniEvent | null>(null);
   const form = useForm<EventFormValues>({
@@ -42,7 +50,8 @@ export default function AdminEventsPage() {
     defaultValues: EMPTY_EVENT,
   });
 
-  if (authLoading) return <LoadingState variant="rows" count={2} message="Checking access..." />;
+  if (authLoading)
+    return <LoadingState variant="rows" count={2} message="Checking access..." />;
   if (user?.role !== "admin") {
     return (
       <EmptyState
@@ -79,7 +88,8 @@ export default function AdminEventsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Event desk</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Create drafts, publish when ready, and cancel if plans change. Cover images wait for storage buckets.
+            Create drafts, publish when ready, and cancel if plans change. Cover images
+            wait for storage buckets.
           </p>
         </div>
         <Button type="button" onClick={openCreate}>
@@ -90,9 +100,16 @@ export default function AdminEventsPage() {
       {loading ? (
         <LoadingState variant="rows" count={4} message="Loading events..." />
       ) : error ? (
-        <ErrorState title="Could not load events" message={error} onRetry={() => refetch()} />
+        <ErrorState
+          title="Could not load events"
+          message={error}
+          onRetry={() => refetch()}
+        />
       ) : events.length === 0 ? (
-        <EmptyState title="No events yet" description="Create a draft, then publish it to the alumni calendar." />
+        <EmptyState
+          title="No events yet"
+          description="Create a draft, then publish it to the alumni calendar."
+        />
       ) : (
         <div className="space-y-3">
           {events.map((event) => (
@@ -114,7 +131,12 @@ export default function AdminEventsPage() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {event.status !== "cancelled" && (
-                  <Button type="button" size="sm" variant="outline" onClick={() => openEdit(event)}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => openEdit(event)}
+                  >
                     Edit
                   </Button>
                 )}
@@ -176,8 +198,17 @@ export default function AdminEventsPage() {
             <FormTextarea control={form.control} name="description" label="Description" />
             <FormInput control={form.control} name="location" label="Location" />
             <FormDatePicker control={form.control} name="startsAt" label="Starts" />
-            <FormDatePicker control={form.control} name="endsAt" label="Ends (optional)" />
-            <FormInput control={form.control} name="capacity" label="Capacity (optional)" placeholder="80" />
+            <FormDatePicker
+              control={form.control}
+              name="endsAt"
+              label="Ends (optional)"
+            />
+            <FormInput
+              control={form.control}
+              name="capacity"
+              label="Capacity (optional)"
+              placeholder="80"
+            />
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Close

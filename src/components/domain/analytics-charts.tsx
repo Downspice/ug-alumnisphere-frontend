@@ -35,7 +35,10 @@ export function AnalyticsBarChart({
           <CartesianGrid stroke="rgba(229,229,229,0.08)" vertical={false} />
           <XAxis dataKey="label" stroke="#686868" fontSize={11} tickLine={false} />
           <YAxis stroke="#686868" fontSize={11} tickLine={false} allowDecimals={false} />
-          <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
+          <Tooltip
+            contentStyle={tooltipStyle}
+            cursor={{ fill: "rgba(255,255,255,0.04)" }}
+          />
           <Bar dataKey="value" name={label} fill="#ededed" radius={[8, 8, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
@@ -58,7 +61,14 @@ export function AnalyticsLineChart({
           <XAxis dataKey="label" stroke="#686868" fontSize={11} tickLine={false} />
           <YAxis stroke="#686868" fontSize={11} tickLine={false} />
           <Tooltip contentStyle={tooltipStyle} />
-          <Line type="monotone" dataKey="value" name={label} stroke="#6b62f2" strokeWidth={2} dot={false} />
+          <Line
+            type="monotone"
+            dataKey="value"
+            name={label}
+            stroke="#6b62f2"
+            strokeWidth={2}
+            dot={false}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

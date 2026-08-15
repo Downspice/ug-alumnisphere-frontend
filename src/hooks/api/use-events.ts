@@ -24,31 +24,36 @@ export function useEvents(filters: {
   location?: string;
   includeUnpublished?: boolean;
 }) {
-  const { data, loading, error, refetch } = useQuery<{ events: AlumniEvent[] }>(GET_EVENTS, {
-    variables: {
-      search: filters.search || undefined,
-      location: filters.location || undefined,
-      includeUnpublished: filters.includeUnpublished || undefined,
-    },
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ events: AlumniEvent[] }>(
+    GET_EVENTS,
+    {
+      variables: {
+        search: filters.search || undefined,
+        location: filters.location || undefined,
+        includeUnpublished: filters.includeUnpublished || undefined,
+      },
+      errorPolicy: "all",
+    }
+  );
   return { events: data?.events ?? [], loading, error: error?.message ?? null, refetch };
 }
 
 export function useEvent(id?: string) {
-  const { data, loading, error, refetch } = useQuery<{ event: AlumniEvent | null }>(GET_EVENT, {
-    variables: { id },
-    skip: !id,
-    errorPolicy: "all",
-  });
+  const { data, loading, error, refetch } = useQuery<{ event: AlumniEvent | null }>(
+    GET_EVENT,
+    {
+      variables: { id },
+      skip: !id,
+      errorPolicy: "all",
+    }
+  );
   return { event: data?.event ?? null, loading, error: error?.message ?? null, refetch };
 }
 
 export function useMyEventRegistrations() {
-  const { data, loading, error, refetch } = useQuery<{ myEventRegistrations: EventRegistration[] }>(
-    GET_MY_EVENT_REGISTRATIONS,
-    { errorPolicy: "all" }
-  );
+  const { data, loading, error, refetch } = useQuery<{
+    myEventRegistrations: EventRegistration[];
+  }>(GET_MY_EVENT_REGISTRATIONS, { errorPolicy: "all" });
   return {
     registrations: data?.myEventRegistrations ?? [],
     loading,
@@ -90,12 +95,14 @@ export function useEventActions(eventId?: string) {
   const [leave, leaveState] = useMutation(CANCEL_EVENT_REGISTRATION, {
     refetchQueries,
     onCompleted: () => toast.success("Registration cancelled"),
-    onError: (err) => toast.error("Could not cancel registration", { description: err.message }),
+    onError: (err) =>
+      toast.error("Could not cancel registration", { description: err.message }),
   });
 
   return {
     createEvent: (input: Record<string, unknown>) => create({ variables: { input } }),
-    updateEvent: (id: string, input: Record<string, unknown>) => update({ variables: { id, input } }),
+    updateEvent: (id: string, input: Record<string, unknown>) =>
+      update({ variables: { id, input } }),
     publishEvent: (id: string) => publish({ variables: { id } }),
     cancelEvent: (id: string) => cancel({ variables: { id } }),
     registerForEvent: (id: string) => register({ variables: { eventId: id } }),

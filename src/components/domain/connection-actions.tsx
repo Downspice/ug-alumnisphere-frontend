@@ -15,8 +15,15 @@ export function ConnectionActions({
 }) {
   const { user } = useAuth();
   const { connection, refetch } = useConnectionStatus(userId);
-  const { sendRequest, acceptRequest, declineRequest, removeConnection, sending, deciding, removing } =
-    useConnectionActions();
+  const {
+    sendRequest,
+    acceptRequest,
+    declineRequest,
+    removeConnection,
+    sending,
+    deciding,
+    removing,
+  } = useConnectionActions();
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   if (!user || user.id === userId) return null;
@@ -48,7 +55,11 @@ export function ConnectionActions({
           description="You will need to send a new request to connect again."
           footer={
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={() => setConfirmOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setConfirmOpen(false)}
+              >
                 Keep
               </Button>
               <Button
@@ -67,7 +78,8 @@ export function ConnectionActions({
           }
         >
           <p className="text-sm text-[#c2c2c2]">
-            This only removes the relationship. Existing message history stays, but you cannot start a new thread until you reconnect.
+            This only removes the relationship. Existing message history stays, but you
+            cannot start a new thread until you reconnect.
           </p>
         </ResponsiveModal>
       </>

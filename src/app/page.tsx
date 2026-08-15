@@ -68,7 +68,10 @@ export default function LandingPage() {
                 "Directory, connections, and asynchronous messaging",
                 "Jobs, events, mentorship, and goal-based fundraising records",
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3 text-sm text-[#ededed]">
+                <div
+                  key={item}
+                  className="flex items-center gap-3 text-sm text-[#ededed]"
+                >
                   <div className="p-1 rounded-[4px] bg-white text-black shrink-0">
                     <ShieldCheck className="size-3.5" />
                   </div>

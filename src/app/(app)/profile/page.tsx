@@ -95,7 +95,10 @@ export default function ProfilePage() {
         avatarFileId = (await uploadFile(avatar, "avatar")).id;
       } catch (error) {
         toast.error("Could not upload photo", {
-          description: error instanceof Error ? error.message : "Try a JPEG, PNG, or WebP under 2MB.",
+          description:
+            error instanceof Error
+              ? error.message
+              : "Try a JPEG, PNG, or WebP under 2MB.",
         });
         return;
       } finally {

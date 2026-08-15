@@ -14,10 +14,16 @@ import { cn } from "@/lib/utils";
 export default function EventDetailPage() {
   const params = useParams<{ id: string }>();
   const { event, loading, error, refetch } = useEvent(params.id);
-  const { registerForEvent, cancelRegistration, registering, leaving } = useEventActions(params.id);
+  const { registerForEvent, cancelRegistration, registering, leaving } = useEventActions(
+    params.id
+  );
 
-  if (loading) return <LoadingState variant="rows" count={3} message="Loading event..." />;
-  if (error) return <ErrorState title="Event unavailable" message={error} onRetry={() => refetch()} />;
+  if (loading)
+    return <LoadingState variant="rows" count={3} message="Loading event..." />;
+  if (error)
+    return (
+      <ErrorState title="Event unavailable" message={error} onRetry={() => refetch()} />
+    );
   if (!event) {
     return (
       <EmptyState
@@ -36,20 +42,31 @@ export default function EventDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Link href="/events" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+      <Link
+        href="/events"
+        className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+      >
         Back to events
       </Link>
       <section className="gradient-hero-panel p-6 sm:p-8 space-y-4">
         <Badge variant="outline" className="capitalize">
           {event.status}
         </Badge>
-        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">{event.title}</h1>
+        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">
+          {event.title}
+        </h1>
         <p className="text-sm text-[#c2c2c2]">{event.location}</p>
         <p className="text-sm text-[#c2c2c2]">{formatEventDate(event.startsAt)}</p>
-        {event.endsAt && <p className="text-xs text-[#686868]">Ends {formatEventDate(event.endsAt)}</p>}
+        {event.endsAt && (
+          <p className="text-xs text-[#686868]">Ends {formatEventDate(event.endsAt)}</p>
+        )}
         <div className="flex flex-wrap gap-2">
           {event.status === "published" && !event.registeredByMe && (
-            <Button type="button" disabled={registering || full} onClick={() => registerForEvent(event.id)}>
+            <Button
+              type="button"
+              disabled={registering || full}
+              onClick={() => registerForEvent(event.id)}
+            >
               {full ? "Event full" : registering ? "Registering…" : "Register"}
             </Button>
           )}

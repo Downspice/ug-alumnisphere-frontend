@@ -73,7 +73,8 @@ export default function JobsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Jobs</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Search alumni-posted roles, save listings, and track applications. Attach a PDF or Word resume when you apply.
+            Search alumni-posted roles, save listings, and track applications. Attach a
+            PDF or Word resume when you apply.
           </p>
         </div>
         {canPost && (
@@ -88,7 +89,12 @@ export default function JobsPage() {
           onSubmit={filterForm.handleSubmit((values) => setApplied(values))}
           className="frosted-glass-card p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"
         >
-          <FormInput control={filterForm.control} name="search" label="Search" placeholder="Title or company" />
+          <FormInput
+            control={filterForm.control}
+            name="search"
+            label="Search"
+            placeholder="Title or company"
+          />
           <FormInput control={filterForm.control} name="location" label="Location" />
           <FormInput control={filterForm.control} name="industry" label="Industry" />
           <FormSelect
@@ -142,9 +148,16 @@ export default function JobsPage() {
           {jobs.loading ? (
             <LoadingState variant="cards" count={3} message="Loading jobs..." />
           ) : jobs.error ? (
-            <ErrorState title="Could not load jobs" message={jobs.error} onRetry={() => jobs.refetch()} />
+            <ErrorState
+              title="Could not load jobs"
+              message={jobs.error}
+              onRetry={() => jobs.refetch()}
+            />
           ) : jobs.jobs.length === 0 ? (
-            <EmptyState title="No open roles" description="Try a broader search, or post a role if you are hiring." />
+            <EmptyState
+              title="No open roles"
+              description="Try a broader search, or post a role if you are hiring."
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {jobs.jobs.map((job) => (
@@ -158,9 +171,16 @@ export default function JobsPage() {
           {saved.loading ? (
             <LoadingState variant="cards" count={2} message="Loading saved jobs..." />
           ) : saved.error ? (
-            <ErrorState title="Could not load saved jobs" message={saved.error} onRetry={() => saved.refetch()} />
+            <ErrorState
+              title="Could not load saved jobs"
+              message={saved.error}
+              onRetry={() => saved.refetch()}
+            />
           ) : saved.jobs.length === 0 ? (
-            <EmptyState title="Nothing saved" description="Save a role from the listing to find it later." />
+            <EmptyState
+              title="Nothing saved"
+              description="Save a role from the listing to find it later."
+            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {saved.jobs.map((job) => (
@@ -174,16 +194,28 @@ export default function JobsPage() {
           {mine.loading ? (
             <LoadingState variant="rows" count={3} message="Loading applications..." />
           ) : mine.error ? (
-            <ErrorState title="Could not load applications" message={mine.error} onRetry={() => mine.refetch()} />
+            <ErrorState
+              title="Could not load applications"
+              message={mine.error}
+              onRetry={() => mine.refetch()}
+            />
           ) : mine.applications.length === 0 ? (
-            <EmptyState title="No applications yet" description="Open a role and submit a cover note to apply." />
+            <EmptyState
+              title="No applications yet"
+              description="Open a role and submit a cover note to apply."
+            />
           ) : (
             <div className="space-y-3">
               {mine.applications.map((application) => (
-                <article key={application.id} className="frosted-glass-card p-4 flex items-center justify-between gap-3">
+                <article
+                  key={application.id}
+                  className="frosted-glass-card p-4 flex items-center justify-between gap-3"
+                >
                   <div>
                     <div className="text-sm font-medium">{application.job?.title}</div>
-                    <div className="text-xs text-[#c2c2c2]">{application.job?.company}</div>
+                    <div className="text-xs text-[#c2c2c2]">
+                      {application.job?.company}
+                    </div>
                   </div>
                   <Badge variant="outline" className="capitalize">
                     {application.status}
@@ -197,11 +229,22 @@ export default function JobsPage() {
         {canPost && (
           <TabsContent value="posted">
             {posted.loading ? (
-              <LoadingState variant="cards" count={2} message="Loading your listings..." />
+              <LoadingState
+                variant="cards"
+                count={2}
+                message="Loading your listings..."
+              />
             ) : posted.error ? (
-              <ErrorState title="Could not load listings" message={posted.error} onRetry={() => posted.refetch()} />
+              <ErrorState
+                title="Could not load listings"
+                message={posted.error}
+                onRetry={() => posted.refetch()}
+              />
             ) : posted.jobs.length === 0 ? (
-              <EmptyState title="You have not posted a job" description="Alumni and administrators can publish roles for the network." />
+              <EmptyState
+                title="You have not posted a job"
+                description="Alumni and administrators can publish roles for the network."
+              />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {posted.jobs.map((job) => (
@@ -248,11 +291,27 @@ export default function JobsPage() {
               ]}
             />
             <FormInput control={createForm.control} name="industry" label="Industry" />
-            <FormTextarea control={createForm.control} name="description" label="Description" />
-            <FormTextarea control={createForm.control} name="requirements" label="Requirements" />
-            <FormInput control={createForm.control} name="applicationUrl" label="External apply URL (optional)" />
+            <FormTextarea
+              control={createForm.control}
+              name="description"
+              label="Description"
+            />
+            <FormTextarea
+              control={createForm.control}
+              name="requirements"
+              label="Requirements"
+            />
+            <FormInput
+              control={createForm.control}
+              name="applicationUrl"
+              label="External apply URL (optional)"
+            />
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={() => setCreateOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setCreateOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit" disabled={creating}>

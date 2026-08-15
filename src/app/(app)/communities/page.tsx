@@ -16,7 +16,12 @@ import { LoadingState } from "@/components/ui/loading-state";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCommunities, useCommunityActions } from "@/hooks/api/use-communities";
-import { communitySchema, searchSchema, type CommunityFormValues, type SearchFormValues } from "@/lib/validations/social";
+import {
+  communitySchema,
+  searchSchema,
+  type CommunityFormValues,
+  type SearchFormValues,
+} from "@/lib/validations/social";
 import { cn } from "@/lib/utils";
 
 function CommunityGrid({
@@ -34,8 +39,12 @@ function CommunityGrid({
   emptyTitle: string;
   emptyDescription: string;
 }) {
-  if (loading) return <LoadingState variant="cards" count={3} message="Loading communities..." />;
-  if (error) return <ErrorState title="Could not load communities" message={error} onRetry={onRetry} />;
+  if (loading)
+    return <LoadingState variant="cards" count={3} message="Loading communities..." />;
+  if (error)
+    return (
+      <ErrorState title="Could not load communities" message={error} onRetry={onRetry} />
+    );
   if (communities.length === 0) {
     return <EmptyState title={emptyTitle} description={emptyDescription} />;
   }
@@ -54,7 +63,10 @@ function CommunityGrid({
             {community.memberCount} member{community.memberCount === 1 ? "" : "s"}
             {community.myRole ? ` · ${community.myRole}` : ""}
           </div>
-          <Link href={`/communities/${community.id}`} className={cn(buttonVariants({ size: "sm" }))}>
+          <Link
+            href={`/communities/${community.id}`}
+            className={cn(buttonVariants({ size: "sm" }))}
+          >
             Open
           </Link>
         </article>
@@ -84,7 +96,8 @@ export default function CommunitiesPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Communities</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Discover public groups or request access to private ones. Owners can appoint moderators.
+            Discover public groups or request access to private ones. Owners can appoint
+            moderators.
           </p>
         </div>
         <Button type="button" onClick={() => setOpen(true)}>
@@ -94,7 +107,9 @@ export default function CommunitiesPage() {
 
       <Form {...searchForm}>
         <form
-          onSubmit={searchForm.handleSubmit((values) => setSearch(values.query?.trim() ?? ""))}
+          onSubmit={searchForm.handleSubmit((values) =>
+            setSearch(values.query?.trim() ?? "")
+          )}
           className="frosted-glass-card p-4 flex flex-col sm:flex-row gap-3"
         >
           <FormInput
@@ -161,7 +176,11 @@ export default function CommunitiesPage() {
             className="space-y-4"
           >
             <FormInput control={createForm.control} name="name" label="Name" />
-            <FormTextarea control={createForm.control} name="description" label="Description" />
+            <FormTextarea
+              control={createForm.control}
+              name="description"
+              label="Description"
+            />
             <FormSwitch
               control={createForm.control}
               name="isPrivate"
