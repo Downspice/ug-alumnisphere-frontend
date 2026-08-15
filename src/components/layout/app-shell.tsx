@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Bell, GraduationCap, LogOut, Menu } from "lucide-react";
+import { Bell, LogOut, Menu } from "lucide-react";
 import { BrandMark } from "@/components/brand/brand-mark";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { VerifiedMark } from "@/components/domain/verified-mark";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useUnreadCount } from "@/hooks/api/use-notifications";
 import { cn } from "@/lib/utils";
@@ -19,17 +19,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { count: unread } = useUnreadCount();
   const [open, setOpen] = useState(false);
   const pageLabel = currentNavLabel(pathname, user?.role);
+  const isMessages = pathname.startsWith("/messages");
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
-      <div className="dusk-violet-wash fixed top-0 inset-x-0 z-50 pointer-events-none" />
+    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed] relative">
+      <div className="app-ambiance" aria-hidden>
+        <div className="app-ambiance-pattern" />
+        <div className="app-orb app-orb-gold" />
+        <div className="app-orb app-orb-navy" />
+        <div className="app-orb app-orb-violet" />
+      </div>
+      <div className="ug-gold-hairline fixed top-0 inset-x-0 z-50 pointer-events-none" />
 
-      <header className="sticky top-3 z-40 px-4 sm:px-6 max-w-[1400px] mx-auto mt-3">
+      <header className="sticky top-3 z-40 px-4 sm:px-6 max-w-[1400px] mx-auto mt-3 relative">
         <div className="frosted-floating-nav px-4 sm:px-5 py-2.5 flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2 duration-500">
           <div className="flex items-center gap-3 min-w-0">
             <BrandMark href="/home" size="sm" />
-            <span className="hidden lg:inline text-[#686868]">/</span>
-            <span className="hidden lg:inline truncate text-sm text-[#c2c2c2]">
+            <span className="hidden lg:inline text-[#ba8f4a]/70">/</span>
+            <span className="hidden lg:inline truncate text-sm text-[#e8d9b8]">
               {pageLabel}
             </span>
           </div>
@@ -51,15 +58,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               )}
             </Link>
             <div className="hidden sm:flex flex-col items-end mr-1">
-              <span className="text-xs text-[#ededed] leading-none">{user?.name}</span>
+              <span className="text-xs text-[#ededed] leading-none inline-flex items-center gap-1">
+                {user?.name}
+                {user?.verificationStatus === "verified" && <VerifiedMark size="sm" />}
+              </span>
               <span className="text-[11px] text-[#686868] capitalize">{user?.role}</span>
             </div>
-            {user?.verificationStatus === "verified" && (
-              <Badge className="hidden sm:inline-flex rounded-full bg-white/5 text-[#c2c2c2] border-[#e5e5e5]/12">
-                <GraduationCap className="size-3" />
-                Verified
-              </Badge>
-            )}
             <Button
               type="button"
               variant="ghost"
@@ -98,14 +102,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </DrawerContent>
       </Drawer>
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 pt-4 pb-10 flex gap-6 items-start">
+      <div
+        className={cn(
+          "relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 pt-4 flex gap-6 items-start",
+          isMessages ? "pb-4" : "pb-10"
+        )}
+      >
         <aside className="hidden md:block w-60 shrink-0 sticky top-20 h-[calc(100vh-6.5rem)] animate-in fade-in slide-in-from-left-2 duration-500">
           <div className="frosted-sidebar h-full overflow-y-auto p-3">
             <AppSidebarNav role={user?.role} unread={unread} />
           </div>
         </aside>
 
-        <main className="min-w-0 flex-1 py-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+        <main
+          className={cn(
+            "min-w-0 flex-1 animate-in fade-in slide-in-from-bottom-2 duration-500",
+            isMessages ? "h-[calc(100dvh-5.75rem)] py-0 overflow-hidden" : "py-4"
+          )}
+        >
           {children}
         </main>
       </div>

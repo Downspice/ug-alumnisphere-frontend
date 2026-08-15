@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, BadgeCheck, ShieldAlert, UserRound } from "lucide-react";
+import { ArrowRight, ShieldAlert, UserRound } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LoadingState } from "@/components/ui/loading-state";
+import { VerifiedMark } from "@/components/domain/verified-mark";
 import { getProfileCompletion } from "@/lib/profile";
 import { cn } from "@/lib/utils";
 
@@ -56,11 +57,15 @@ export default function HomePage() {
   return (
     <div className="space-y-6">
       <section className="gradient-hero-panel p-6 sm:p-8 space-y-4">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-[#ba8f4a]">
+          University of Ghana · Integri Procedamus
+        </p>
         <Badge variant="secondary" className="capitalize">
           {user.role}
         </Badge>
-        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">
+        <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white inline-flex items-center gap-2">
           Welcome back, {user.name.split(" ")[0]}.
+          {user.verificationStatus === "verified" && <VerifiedMark size="lg" />}
         </h1>
         <p className="text-sm text-[#c2c2c2] max-w-xl">
           {user.headline ||
@@ -85,7 +90,7 @@ export default function HomePage() {
           <div className="text-2xl font-medium">{completion}%</div>
           <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
             <div
-              className="h-full rounded-full bg-white transition-all duration-500"
+              className="h-full rounded-full bg-[#ba8f4a] transition-all duration-500"
               style={{ width: `${completion}%` }}
             />
           </div>
@@ -94,7 +99,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <span className="text-xs text-[#686868]">Verification</span>
             {user.verificationStatus === "verified" ? (
-              <BadgeCheck className="size-4 text-[#ededed]" />
+              <VerifiedMark />
             ) : (
               <ShieldAlert className="size-4 text-[#c2c2c2]" />
             )}

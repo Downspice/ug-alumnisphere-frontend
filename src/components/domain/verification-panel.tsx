@@ -11,6 +11,7 @@ import { FormFileInput } from "@/components/forms/form-file-input";
 import { Button } from "@/components/ui/button";
 import { asFile, uploadFile } from "@/lib/api/upload";
 import { Badge } from "@/components/ui/badge";
+import { VerifiedMark } from "@/components/domain/verified-mark";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useMyVerification, useSubmitVerification } from "@/hooks/api/use-verification";
 import { LoadingState } from "@/components/ui/loading-state";
@@ -56,7 +57,10 @@ export function VerificationPanel() {
   if (user.verificationStatus === "verified") {
     return (
       <div className="frosted-glass-card p-5 space-y-2">
-        <Badge variant="secondary">Verified</Badge>
+        <div className="flex items-center gap-2">
+          <VerifiedMark />
+          <p className="text-sm font-medium">Verified alumni</p>
+        </div>
         <p className="text-sm text-[#c2c2c2]">
           An administrator has confirmed this alumni identity.
         </p>

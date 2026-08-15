@@ -10,6 +10,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormTextarea } from "@/components/forms/form-textarea";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
+import { UserAvatar } from "@/components/domain/user-avatar";
+import { VerifiedMark } from "@/components/domain/verified-mark";
 import { useAuth } from "@/components/providers/auth-provider";
 import { usePostActions } from "@/hooks/api/use-posts";
 import type { Post } from "@/lib/api/services/social.service";
@@ -60,11 +62,23 @@ export function PostCard({
   return (
     <article className="frosted-glass-card p-5 space-y-4 animate-in fade-in duration-500">
       <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <div className="text-sm font-medium text-[#ededed]">
-            {post.author?.name ?? "Alumni"}
+        <div className="flex items-center gap-3 min-w-0">
+          <UserAvatar
+            name={post.author?.name}
+            avatarUrl={post.author?.avatarUrl}
+            size="sm"
+          />
+          <div className="min-w-0">
+            <div className="text-sm font-medium text-[#ededed] flex items-center gap-1.5 min-w-0">
+              <span className="truncate">{post.author?.name ?? "Alumni"}</span>
+              {post.author?.verificationStatus === "verified" && (
+                <VerifiedMark size="sm" />
+              )}
+            </div>
+            <div className="text-[11px] text-[#686868]">
+              {formatStamp(post.createdAt)}
+            </div>
           </div>
-          <div className="text-[11px] text-[#686868]">{formatStamp(post.createdAt)}</div>
         </div>
         <div className="flex items-center gap-2">
           {post.community && !communityId && (

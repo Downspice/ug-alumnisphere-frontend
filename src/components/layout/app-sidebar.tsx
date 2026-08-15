@@ -109,7 +109,7 @@ export function AppSidebarNav({
       {groups.map((group, index) => (
         <div key={group.label} className="flex flex-col gap-1.5">
           {index > 0 && <Separator className="mb-1.5" />}
-          <p className="px-3 text-[11px] uppercase tracking-[0.14em] text-[#686868]">
+          <p className="px-3 text-[11px] uppercase tracking-[0.14em] text-[#ba8f4a]/80">
             {group.label}
           </p>
           {group.items.map((item) => {
@@ -124,7 +124,7 @@ export function AppSidebarNav({
                   "inline-flex w-full items-center gap-2.5 rounded-full px-3 py-2 text-sm transition-colors border",
                   active
                     ? "bg-white text-[#161616] border-white"
-                    : "text-[#ededed]/85 border-transparent hover:border-[#e5e5e5]/20 hover:bg-white/5"
+                    : "text-[#ededed]/85 border-transparent hover:border-[#ba8f4a]/25 hover:bg-[#ba8f4a]/8"
                 )}
               >
                 <Icon className="size-3.5 shrink-0" />
