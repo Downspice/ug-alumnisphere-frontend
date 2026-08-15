@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GraduationCap, Mail, UserRound } from "lucide-react";
 import { PublicHeader } from "@/components/layout/public-header";
+import { BrandMark } from "@/components/brand/brand-mark";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/forms/form-input";
@@ -41,6 +42,7 @@ export default function RegisterPage() {
       <PublicHeader />
       <main className="max-w-[560px] mx-auto px-4 py-12">
         <div className="frosted-glass-card p-6 sm:p-8 space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          <BrandMark href="/" size="md" />
           <div className="space-y-2">
             <h1 className="text-2xl font-medium tracking-tight">Join AlumniSphere</h1>
             <p className="text-sm text-[#c2c2c2]">

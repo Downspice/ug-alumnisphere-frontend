@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useHealth, useExams, useDeleteExam, useUsers } from "@/hooks/api";
+import { BrandMark } from "@/components/brand/brand-mark";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -78,14 +79,7 @@ export default function Home() {
       <header className="sticky top-3 z-40 px-4 sm:px-6 max-w-[1100px] mx-auto mt-3">
         <nav className="frosted-floating-nav px-4 sm:px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-[10px] bg-white text-[#161616] flex items-center justify-center font-medium text-xs tracking-tight shadow-xs">
-              UG
-            </div>
-            <div>
-              <div className="font-medium text-sm text-[#ededed] tracking-tight">
-                AlumniSphere
-              </div>
-            </div>
+            <BrandMark href="/home" size="sm" />
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">

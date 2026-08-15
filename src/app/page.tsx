@@ -12,6 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import { PublicHeader } from "@/components/layout/public-header";
+import { BrandMark } from "@/components/brand/brand-mark";
 import { buttonVariants } from "@/components/ui/button";
 import { useHealth } from "@/hooks/api";
 import { cn } from "@/lib/utils";
@@ -49,47 +50,56 @@ export default function LandingPage() {
 
       <main className="max-w-[1100px] mx-auto px-4 sm:px-6 py-10 space-y-12">
         <section className="gradient-hero-panel p-8 sm:p-12 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#6b62f2]/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-2xl space-y-6 relative z-10">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#e5e5e5]/15 bg-white/5 text-xs text-[#ededed]">
-              <span className="size-1.5 rounded-full bg-[#6b62f2]" />
-              University of Ghana · Alumni network
-            </div>
-            <h1 className="text-4xl sm:text-6xl font-medium tracking-[-0.035em] text-white leading-[1.08]">
-              Reconnect. Mentor. Build what comes next.
-            </h1>
-            <p className="text-[#c2c2c2] text-base sm:text-lg leading-relaxed max-w-xl">
-              AlumniSphere is a secure workspace for alumni, students, and administrators
-              to manage professional identity, communities, opportunities, and giving.
-            </p>
-            <div className="space-y-3 pt-2">
-              {[
-                "Verified alumni identities with private document review",
-                "Directory, connections, and asynchronous messaging",
-                "Jobs, events, mentorship, and goal-based fundraising records",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 text-sm text-[#ededed]"
-                >
-                  <div className="p-1 rounded-[4px] bg-white text-black shrink-0">
-                    <ShieldCheck className="size-3.5" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#ba8f4a]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-center relative z-10">
+            <div className="max-w-2xl space-y-6">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#ba8f4a]/35 bg-[#ba8f4a]/10 text-xs text-[#ededed]">
+                <span className="size-1.5 rounded-full bg-[#ba8f4a]" />
+                University of Ghana · Integri Procedamus
+              </div>
+              <h1 className="text-4xl sm:text-6xl font-medium tracking-[-0.035em] text-white leading-[1.08]">
+                Reconnect. Mentor. Build what comes next.
+              </h1>
+              <p className="text-[#c2c2c2] text-base sm:text-lg leading-relaxed max-w-xl">
+                AlumniSphere is a secure workspace for alumni, students, and
+                administrators to manage professional identity, communities,
+                opportunities, and giving.
+              </p>
+              <div className="space-y-3 pt-2">
+                {[
+                  "Verified alumni identities with private document review",
+                  "Directory, connections, and asynchronous messaging",
+                  "Jobs, events, mentorship, and goal-based fundraising records",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-3 text-sm text-[#ededed]"
+                  >
+                    <div className="p-1 rounded-[4px] bg-white text-black shrink-0">
+                      <ShieldCheck className="size-3.5" />
+                    </div>
+                    <span>{item}</span>
                   </div>
-                  <span>{item}</span>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center gap-3 pt-4">
+                <Link href="/register" className={cn(buttonVariants({ size: "lg" }))}>
+                  Create your account
+                  <ArrowRight className="size-3.5" />
+                </Link>
+                <Link
+                  href="/login"
+                  className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+                >
+                  Sign in
+                </Link>
+              </div>
             </div>
-            <div className="flex flex-wrap items-center gap-3 pt-4">
-              <Link href="/register" className={cn(buttonVariants({ size: "lg" }))}>
-                Create your account
-                <ArrowRight className="size-3.5" />
-              </Link>
-              <Link
-                href="/login"
-                className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-              >
-                Sign in
-              </Link>
+            <div className="hidden lg:flex flex-col items-center gap-3 pr-4">
+              <BrandMark href={null} size="lg" stacked showWordmark={false} />
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#ba8f4a]">
+                Integri Procedamus
+              </p>
             </div>
           </div>
         </section>
@@ -143,6 +153,11 @@ export default function LandingPage() {
             <span className="text-[#c2c2c2]">MongoDB remains the system of record</span>
           </div>
         </section>
+
+        <footer className="pb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-[#686868]">
+          <p>University of Ghana · AlumniSphere · Integri Procedamus</p>
+          <p>Progress with integrity</p>
+        </footer>
       </main>
     </div>
   );

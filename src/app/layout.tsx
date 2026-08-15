@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   title: "AlumniSphere | University of Ghana",
   description:
     "AlumniSphere is the University of Ghana alumni network for professional identity, mentorship, jobs, events, and community.",
+  icons: {
+    icon: "/brand/ug-crest.svg",
+    apple: "/brand/ug-crest.png",
+  },
 };
 
 export default function RootLayout({
