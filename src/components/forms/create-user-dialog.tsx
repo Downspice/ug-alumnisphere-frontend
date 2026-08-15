@@ -7,6 +7,7 @@ import { useCreateUser } from "@/hooks/api";
 import { userSchema, UserFormValues } from "@/lib/validations/user";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "./form-input";
+import { FormPassword } from "./form-password";
 import { FormSelect } from "./form-select";
 import { ResponsiveModal } from "@/components/ui/responsive-modal";
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,8 @@ interface CreateUserDialogProps {
 }
 
 const roleOptions = [
+  { label: "Alumni", value: "alumni" },
   { label: "Student", value: "student" },
-  { label: "Instructor", value: "instructor" },
   { label: "Admin", value: "admin" },
 ];
 
@@ -30,7 +31,8 @@ export function CreateUserDialog({ onSuccess }: CreateUserDialogProps) {
     defaultValues: {
       name: "",
       email: "",
-      role: "student",
+      password: "",
+      role: "alumni",
     },
   });
 
@@ -78,6 +80,13 @@ export function CreateUserDialog({ onSuccess }: CreateUserDialogProps) {
             label="Email Address"
             type="email"
             placeholder="alex.morgan@example.com"
+          />
+
+          <FormPassword
+            control={form.control}
+            name="password"
+            label="Temporary Password"
+            description="Minimum 8 characters with a letter and a number"
           />
 
           <FormSelect

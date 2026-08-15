@@ -4,7 +4,9 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: "admin" | "student" | "instructor" | string;
+  role: "admin" | "student" | "alumni" | string;
+  accountStatus?: string;
+  verificationStatus?: string;
   createdAt: string;
   updatedAt?: string;
 }
@@ -12,6 +14,7 @@ export interface User {
 export interface CreateUserInput {
   name: string;
   email: string;
+  password: string;
   role?: string;
 }
 

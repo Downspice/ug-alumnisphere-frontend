@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ApolloProvider } from "@/components/providers/apollo-provider";
+import { AuthProvider } from "@/components/providers/auth-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 const dmSans = DM_Sans({
@@ -39,8 +40,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-[#ededed] font-sans selection:bg-[#6b62f2]/30 selection:text-white">
         <ApolloProvider>
-          {children}
-          <Toaster richColors position="top-right" theme="dark" />
+          <AuthProvider>
+            {children}
+            <Toaster richColors position="top-right" theme="dark" />
+          </AuthProvider>
         </ApolloProvider>
       </body>
     </html>
