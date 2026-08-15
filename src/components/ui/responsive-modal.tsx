@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useIsDesktop } from "@/hooks/use-media-query";
+import { useIsClient } from "@/hooks/use-is-client";
 import {
   Dialog,
   DialogContent,
@@ -46,11 +47,7 @@ export function ResponsiveModal({
   contentClassName,
 }: ResponsiveModalProps) {
   const isDesktop = useIsDesktop();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useIsClient();
 
   // Avoid SSR hydration mismatch by rendering a stable structure initially
   if (!mounted) {

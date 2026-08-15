@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Lottie from "lottie-react";
+import { useIsClient } from "@/hooks/use-is-client";
 
 // Prepackaged lightweight vector Lottie JSONs for zero-dependency instant rendering
 export const BUILTIN_ANIMATIONS = {
@@ -418,11 +419,7 @@ export function LottiePlayer({
   className = "",
   size = 140,
 }: LottiePlayerProps) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useIsClient();
 
   const data = animationData || BUILTIN_ANIMATIONS[preset] || BUILTIN_ANIMATIONS.empty;
 
