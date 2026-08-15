@@ -23,9 +23,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UG AlumniSphere | Dimension Dusk-lit Platform",
+  title: "AlumniSphere | University of Ghana",
   description:
-    "UG AlumniSphere — Dusk-lit workspace with frosted glass panels, full-stack GraphQL, Next.js, and MongoDB.",
+    "AlumniSphere is the University of Ghana alumni network for professional identity, mentorship, jobs, events, and community.",
 };
 
 export default function RootLayout({
