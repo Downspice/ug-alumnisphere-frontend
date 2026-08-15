@@ -2,7 +2,8 @@ import { getAccessToken } from "@/lib/auth/session";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
 
-export type UploadPurpose = "avatar" | "post" | "verification" | "resume";
+export type UploadPurpose =
+  "avatar" | "post" | "verification" | "resume" | "event" | "campaign" | "community";
 
 export interface UploadedFile {
   id: string;

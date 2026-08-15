@@ -7,6 +7,10 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/forms/form-input";
 import { FormTextarea } from "@/components/forms/form-textarea";
 import { FormDatePicker } from "@/components/forms/form-date-picker";
+import { FormFileInput } from "@/components/forms/form-file-input";
+import { CoverMedia } from "@/components/domain/cover-media";
+import { asFile, uploadFile } from "@/lib/api/upload";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -22,6 +26,7 @@ const EMPTY: CampaignFormValues = {
   description: "",
   goalAmount: "",
   deadline: "",
+  cover: undefined,
 };
 
 export default function AdminCampaignsPage() {
@@ -35,6 +40,7 @@ export default function AdminCampaignsPage() {
     closing,
   } = useCampaignActions();
   const [open, setOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const form = useForm<CampaignFormValues>({
     resolver: zodResolver(campaignSchema),
     defaultValues: EMPTY,
@@ -46,8 +52,8 @@ export default function AdminCampaignsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Campaign desk</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Draft, publish, and close giving campaigns. Cover images wait for storage
-            buckets. No payment checkout is attached.
+            Draft, publish, and close giving campaigns. Optional cover images are stored
+            in Supabase. No payment checkout is attached.
           </p>
         </div>
         <Button type="button" onClick={() => setOpen(true)}>
@@ -72,6 +78,7 @@ export default function AdminCampaignsPage() {
         <div className="space-y-3">
           {campaigns.map((campaign: Campaign) => (
             <article key={campaign.id} className="frosted-glass-card p-4 space-y-3">
+              <CoverMedia url={campaign.coverImageUrl} alt={campaign.title} />
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-sm font-medium">{campaign.title}</div>
@@ -121,11 +128,30 @@ export default function AdminCampaignsPage() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(async (values) => {
+              const cover = asFile(values.cover);
+              let coverFileId: string | undefined;
+              if (cover) {
+                try {
+                  setUploading(true);
+                  coverFileId = (await uploadFile(cover, "campaign")).id;
+                } catch (error) {
+                  toast.error("Could not upload cover", {
+                    description:
+                      error instanceof Error
+                        ? error.message
+                        : "Try a JPEG, PNG, or WebP under 5MB.",
+                  });
+                  return;
+                } finally {
+                  setUploading(false);
+                }
+              }
               await createCampaign({
                 title: values.title,
                 description: values.description,
                 goalAmount: Number(values.goalAmount),
                 deadline: values.deadline || undefined,
+                coverFileId,
               });
               form.reset(EMPTY);
               setOpen(false);
@@ -145,12 +171,20 @@ export default function AdminCampaignsPage() {
               name="deadline"
               label="Deadline (optional)"
             />
+            <FormFileInput
+              control={form.control}
+              name="cover"
+              label="Cover image"
+              accept="image/jpeg,image/png,image/webp"
+              maxSizeBytes={5 * 1024 * 1024}
+              description="Optional JPEG, PNG, or WebP up to 5MB."
+            />
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Close
               </Button>
-              <Button type="submit" disabled={creating}>
-                Save draft
+              <Button type="submit" disabled={creating || uploading}>
+                {uploading ? "Uploading…" : "Save draft"}
               </Button>
             </div>
           </form>

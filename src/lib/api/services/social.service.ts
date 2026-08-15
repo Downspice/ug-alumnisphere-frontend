@@ -26,6 +26,7 @@ export interface Community {
   memberCount: number;
   myRole?: CommunityRole | null;
   joinRequestPending: boolean;
+  coverImageUrl?: string | null;
   createdAt: string;
   owner?: Pick<DirectoryUser, "id" | "name"> | null;
 }

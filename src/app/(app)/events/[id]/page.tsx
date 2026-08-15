@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorState } from "@/components/ui/error-state";
 import { LoadingState } from "@/components/ui/loading-state";
 import { formatEventDate } from "@/components/domain/event-card";
+import { CoverMedia } from "@/components/domain/cover-media";
 import { useEvent, useEventActions } from "@/hooks/api/use-events";
 import { cn } from "@/lib/utils";
 
@@ -48,6 +49,7 @@ export default function EventDetailPage() {
       >
         Back to events
       </Link>
+      <CoverMedia url={event.coverImageUrl} alt={event.title} />
       <section className="gradient-hero-panel p-6 sm:p-8 space-y-4">
         <Badge variant="outline" className="capitalize">
           {event.status}

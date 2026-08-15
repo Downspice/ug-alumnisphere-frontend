@@ -8,6 +8,10 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/forms/form-input";
 import { FormTextarea } from "@/components/forms/form-textarea";
 import { FormSwitch } from "@/components/forms/form-switch";
+import { FormFileInput } from "@/components/forms/form-file-input";
+import { CoverMedia } from "@/components/domain/cover-media";
+import { asFile, uploadFile } from "@/lib/api/upload";
+import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -52,6 +56,7 @@ function CommunityGrid({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {communities.map((community) => (
         <article key={community.id} className="frosted-glass-card p-5 space-y-3">
+          <CoverMedia url={community.coverImageUrl} alt={community.name} />
           <div className="flex items-start justify-between gap-3">
             <h3 className="text-base font-medium">{community.name}</h3>
             <Badge variant="outline">{community.isPrivate ? "Private" : "Public"}</Badge>
@@ -78,6 +83,7 @@ function CommunityGrid({
 export default function CommunitiesPage() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const discover = useCommunities(search);
   const mine = useCommunities(search, true);
   const { createCommunity, creating } = useCommunityActions();
@@ -87,7 +93,7 @@ export default function CommunitiesPage() {
   });
   const createForm = useForm<CommunityFormValues>({
     resolver: zodResolver(communitySchema),
-    defaultValues: { name: "", description: "", isPrivate: false },
+    defaultValues: { name: "", description: "", isPrivate: false, cover: undefined },
   });
 
   return (
@@ -165,12 +171,36 @@ export default function CommunitiesPage() {
         <Form {...createForm}>
           <form
             onSubmit={createForm.handleSubmit(async (values) => {
+              const cover = asFile(values.cover);
+              let coverFileId: string | undefined;
+              if (cover) {
+                try {
+                  setUploading(true);
+                  coverFileId = (await uploadFile(cover, "community")).id;
+                } catch (error) {
+                  toast.error("Could not upload cover", {
+                    description:
+                      error instanceof Error
+                        ? error.message
+                        : "Try a JPEG, PNG, or WebP under 5MB.",
+                  });
+                  return;
+                } finally {
+                  setUploading(false);
+                }
+              }
               await createCommunity({
                 name: values.name,
                 description: values.description,
                 isPrivate: values.isPrivate,
+                coverFileId,
               });
-              createForm.reset({ name: "", description: "", isPrivate: false });
+              createForm.reset({
+                name: "",
+                description: "",
+                isPrivate: false,
+                cover: undefined,
+              });
               setOpen(false);
             })}
             className="space-y-4"
@@ -187,12 +217,20 @@ export default function CommunitiesPage() {
               label="Private community"
               description="Members must request to join."
             />
+            <FormFileInput
+              control={createForm.control}
+              name="cover"
+              label="Cover image"
+              accept="image/jpeg,image/png,image/webp"
+              maxSizeBytes={5 * 1024 * 1024}
+              description="Optional JPEG, PNG, or WebP up to 5MB."
+            />
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={creating}>
-                {creating ? "Creating…" : "Create"}
+              <Button type="submit" disabled={creating || uploading}>
+                {uploading ? "Uploading…" : creating ? "Creating…" : "Create"}
               </Button>
             </div>
           </form>

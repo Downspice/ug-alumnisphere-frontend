@@ -12,6 +12,7 @@ export const communitySchema = z.object({
   name: z.string().trim().min(3, "Name must be at least 3 characters").max(80),
   description: z.string().max(500).optional(),
   isPrivate: z.boolean(),
+  cover: z.any().optional(),
 });
 
 export const postSchema = z

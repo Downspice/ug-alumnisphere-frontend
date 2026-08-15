@@ -11,6 +11,7 @@ export interface Campaign {
   contributorCount: number;
   deadline?: string | null;
   status: CampaignStatus;
+  coverImageUrl?: string | null;
   createdAt: string;
   createdBy?: { id: string; name: string } | null;
 }

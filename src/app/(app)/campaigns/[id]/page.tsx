@@ -22,6 +22,7 @@ import {
   contributionSchema,
   type ContributionFormValues,
 } from "@/lib/validations/giving";
+import { CoverMedia } from "@/components/domain/cover-media";
 import { cn } from "@/lib/utils";
 
 export default function CampaignDetailPage() {
@@ -66,6 +67,7 @@ export default function CampaignDetailPage() {
       >
         Back to campaigns
       </Link>
+      <CoverMedia url={campaign.coverImageUrl} alt={campaign.title} />
       <section className="gradient-hero-panel p-6 sm:p-8 space-y-4">
         <Badge variant="outline" className="capitalize">
           {campaign.status}

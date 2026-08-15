@@ -74,6 +74,7 @@ export interface AlumniEvent {
   status: EventStatus;
   registeredCount: number;
   registeredByMe: boolean;
+  coverImageUrl?: string | null;
   createdAt: string;
   createdBy?: Pick<DirectoryUser, "id" | "name"> | null;
 }

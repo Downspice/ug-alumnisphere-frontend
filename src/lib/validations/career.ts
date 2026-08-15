@@ -65,6 +65,7 @@ export const eventSchema = z.object({
   startsAt: z.string().min(1, "Start date is required"),
   endsAt: z.string().optional(),
   capacity: z.string().optional(),
+  cover: z.any().optional(),
 });
 
 export type JobFilterValues = z.infer<typeof jobFilterSchema>;

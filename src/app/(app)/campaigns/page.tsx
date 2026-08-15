@@ -18,6 +18,7 @@ import {
   campaignFilterSchema,
   type CampaignFilterValues,
 } from "@/lib/validations/giving";
+import { CoverMedia } from "@/components/domain/cover-media";
 import { cn } from "@/lib/utils";
 
 export default function CampaignsPage() {
@@ -96,6 +97,7 @@ export default function CampaignsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {campaigns.campaigns.map((campaign) => (
                 <article key={campaign.id} className="frosted-glass-card p-5 space-y-3">
+                  <CoverMedia url={campaign.coverImageUrl} alt={campaign.title} />
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="text-base font-medium">{campaign.title}</h3>
                     <Badge variant="outline" className="capitalize">

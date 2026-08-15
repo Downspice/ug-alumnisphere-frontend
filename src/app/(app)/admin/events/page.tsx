@@ -8,6 +8,10 @@ import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/forms/form-input";
 import { FormTextarea } from "@/components/forms/form-textarea";
 import { FormDatePicker } from "@/components/forms/form-date-picker";
+import { FormFileInput } from "@/components/forms/form-file-input";
+import { CoverMedia } from "@/components/domain/cover-media";
+import { asFile, uploadFile } from "@/lib/api/upload";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -27,6 +31,7 @@ const EMPTY_EVENT: EventFormValues = {
   startsAt: "",
   endsAt: "",
   capacity: "",
+  cover: undefined,
 };
 
 export default function AdminEventsPage() {
@@ -44,6 +49,7 @@ export default function AdminEventsPage() {
     cancelling,
   } = useEventActions();
   const [open, setOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [editing, setEditing] = useState<AlumniEvent | null>(null);
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventSchema),
@@ -78,6 +84,7 @@ export default function AdminEventsPage() {
       startsAt: event.startsAt.slice(0, 10),
       endsAt: event.endsAt ? event.endsAt.slice(0, 10) : "",
       capacity: event.capacity ? String(event.capacity) : "",
+      cover: undefined,
     });
     setOpen(true);
   };
@@ -88,8 +95,8 @@ export default function AdminEventsPage() {
         <div>
           <h1 className="text-3xl font-medium tracking-tight">Event desk</h1>
           <p className="text-sm text-[#c2c2c2] mt-1">
-            Create drafts, publish when ready, and cancel if plans change. Cover images
-            wait for storage buckets.
+            Create drafts, publish when ready, and cancel if plans change. Optional cover
+            images are stored in Supabase.
           </p>
         </div>
         <Button type="button" onClick={openCreate}>
@@ -114,6 +121,7 @@ export default function AdminEventsPage() {
         <div className="space-y-3">
           {events.map((event) => (
             <article key={event.id} className="frosted-glass-card p-4 space-y-3">
+              <CoverMedia url={event.coverImageUrl} alt={event.title} />
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-sm font-medium">{event.title}</div>
@@ -176,6 +184,24 @@ export default function AdminEventsPage() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(async (values) => {
+              const cover = asFile(values.cover);
+              let coverFileId: string | undefined;
+              if (cover) {
+                try {
+                  setUploading(true);
+                  coverFileId = (await uploadFile(cover, "event")).id;
+                } catch (error) {
+                  toast.error("Could not upload cover", {
+                    description:
+                      error instanceof Error
+                        ? error.message
+                        : "Try a JPEG, PNG, or WebP under 5MB.",
+                  });
+                  return;
+                } finally {
+                  setUploading(false);
+                }
+              }
               const input = {
                 title: values.title,
                 description: values.description,
@@ -183,6 +209,7 @@ export default function AdminEventsPage() {
                 startsAt: values.startsAt,
                 endsAt: values.endsAt || undefined,
                 capacity: values.capacity ? Number(values.capacity) : undefined,
+                coverFileId,
               };
               if (editing) {
                 await updateEvent(editing.id, input);
@@ -209,12 +236,20 @@ export default function AdminEventsPage() {
               label="Capacity (optional)"
               placeholder="80"
             />
+            <FormFileInput
+              control={form.control}
+              name="cover"
+              label="Cover image"
+              accept="image/jpeg,image/png,image/webp"
+              maxSizeBytes={5 * 1024 * 1024}
+              description="Optional JPEG, PNG, or WebP up to 5MB."
+            />
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Close
               </Button>
-              <Button type="submit" disabled={creating || updating}>
-                {editing ? "Save changes" : "Save draft"}
+              <Button type="submit" disabled={creating || updating || uploading}>
+                {uploading ? "Uploading…" : editing ? "Save changes" : "Save draft"}
               </Button>
             </div>
           </form>

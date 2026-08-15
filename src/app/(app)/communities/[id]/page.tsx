@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ComposePost } from "@/components/domain/compose-post";
 import { PostCard } from "@/components/domain/post-card";
 import { AlumniCard } from "@/components/domain/alumni-card";
+import { CoverMedia } from "@/components/domain/cover-media";
 import { useAuth } from "@/components/providers/auth-provider";
 import {
   useCommunity,
@@ -69,6 +70,7 @@ export default function CommunityDetailPage() {
 
   return (
     <div className="space-y-6">
+      <CoverMedia url={community.coverImageUrl} alt={community.name} />
       <section className="gradient-hero-panel p-6 sm:p-8 space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="secondary">{community.isPrivate ? "Private" : "Public"}</Badge>

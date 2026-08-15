@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import type { AlumniEvent } from "@/lib/api/services/career.service";
+import { CoverMedia } from "@/components/domain/cover-media";
 import { cn } from "@/lib/utils";
 
 export function formatEventDate(value: string) {
@@ -19,6 +20,7 @@ export function formatEventDate(value: string) {
 export function EventCard({ event, href }: { event: AlumniEvent; href?: string }) {
   return (
     <article className="frosted-glass-card p-5 space-y-3 animate-in fade-in duration-500">
+      <CoverMedia url={event.coverImageUrl} alt={event.title} />
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-base font-medium">{event.title}</h3>
         <Badge variant="outline" className="capitalize">

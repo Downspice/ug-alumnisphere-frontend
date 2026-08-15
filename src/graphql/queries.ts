@@ -294,6 +294,7 @@ export const COMMUNITY_FIELDS = gql`
     memberCount
     myRole
     joinRequestPending
+    coverImageUrl
     createdAt
     owner {
       id
@@ -624,6 +625,7 @@ export const EVENT_FIELDS = gql`
     status
     registeredCount
     registeredByMe
+    coverImageUrl
     createdAt
     createdBy {
       id
@@ -679,6 +681,7 @@ export const CAMPAIGN_FIELDS = gql`
     contributorCount
     deadline
     status
+    coverImageUrl
     createdAt
     createdBy {
       id

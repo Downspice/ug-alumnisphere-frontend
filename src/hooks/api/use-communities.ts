@@ -148,6 +148,7 @@ export function useCommunityActions(communityId?: string) {
       name: string;
       description?: string;
       isPrivate?: boolean;
+      coverFileId?: string;
     }) => create({ variables: { input } }),
     joinCommunity: (id: string) => join({ variables: { id } }),
     leaveCommunity: (id: string) => leave({ variables: { id } }),

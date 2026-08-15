@@ -13,6 +13,7 @@ export const campaignSchema = z.object({
     .max(4000),
   goalAmount: z.string().min(1, "Goal is required"),
   deadline: z.string().optional(),
+  cover: z.any().optional(),
 });
 
 export const contributionSchema = z.object({
