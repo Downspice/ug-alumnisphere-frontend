@@ -52,7 +52,7 @@ export function AuthStage({
           <img
             src="/brand/legon-dusk.jpg"
             alt="University of Ghana, Legon campus at dusk"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="ug-kenburns absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#232559]/70 to-[#232559]/25" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 via-transparent to-[#0a0a0a]/80 hidden lg:block" />
@@ -61,21 +61,22 @@ export function AuthStage({
             <BrandMark href="/" size="sm" />
 
             <div className="space-y-6 max-w-lg mt-16 lg:mt-0">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-[#ba8f4a]">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-[#ba8f4a] animate-in fade-in slide-in-from-bottom-2 duration-700 fill-mode-both">
                 University of Ghana · Legon
               </p>
-              <h1 className="text-4xl sm:text-5xl font-medium tracking-[-0.035em] text-white leading-[1.08]">
+              <h1 className="text-4xl sm:text-5xl font-medium tracking-[-0.035em] text-white leading-[1.08] animate-in fade-in slide-in-from-bottom-2 duration-700 fill-mode-both delay-150">
                 Integri Procedamus
               </h1>
-              <p className="text-[#e8d9b8] text-sm sm:text-base leading-relaxed">
+              <p className="text-[#e8d9b8] text-sm sm:text-base leading-relaxed animate-in fade-in slide-in-from-bottom-2 duration-700 fill-mode-both delay-300">
                 Progress with integrity. AlumniSphere is the Legon network for alumni and
                 students — identity, mentorship, work, and giving under one verified roof.
               </p>
               <ul className="hidden md:grid gap-3 pt-2">
-                {PILLARS.map((item) => (
+                {PILLARS.map((item, index) => (
                   <li
                     key={item.title}
-                    className="rounded-[16px] border border-[#ba8f4a]/25 bg-[#0a0a0a]/45 backdrop-blur-md px-4 py-3"
+                    className="rounded-[16px] border border-[#ba8f4a]/25 bg-[#0a0a0a]/45 backdrop-blur-md px-4 py-3 animate-in fade-in slide-in-from-left-2 duration-700 fill-mode-both"
+                    style={{ animationDelay: `${200 + index * 140}ms` }}
                   >
                     <p className="text-xs uppercase tracking-[0.14em] text-[#ba8f4a]">
                       {item.title}
