@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
-import { PublicHeader } from "@/components/layout/public-header";
-import { BrandMark } from "@/components/brand/brand-mark";
+import { AuthStage } from "@/components/layout/auth-stage";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/forms/form-input";
@@ -26,55 +25,46 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
-      <div className="dusk-violet-wash fixed top-0 inset-x-0 z-50 pointer-events-none" />
-      <PublicHeader />
-      <main className="max-w-[480px] mx-auto px-4 py-12">
-        <div className="frosted-glass-card p-6 sm:p-8 space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <BrandMark href="/" size="md" />
-          <div className="space-y-2">
-            <h1 className="text-2xl font-medium tracking-tight">Sign in</h1>
-            <p className="text-sm text-[#c2c2c2]">
-              Use your AlumniSphere email and password. Sessions last seven days.
-            </p>
-          </div>
+    <AuthStage
+      kicker="Legon workspace"
+      title="Sign in to AlumniSphere"
+      description="Use the email you registered with. Sessions last seven days. Suspended accounts cannot sign in."
+      footer={
+        <p className="text-xs text-[#686868] text-center">
+          New to the University of Ghana network?{" "}
+          <Link
+            href="/register"
+            className="text-[#ba8f4a] underline-offset-4 hover:underline"
+          >
+            Create an account
+          </Link>
+        </p>
+      }
+    >
+      {form.formState.errors.root?.message && (
+        <ErrorState
+          compact
+          title="Sign in failed"
+          message={form.formState.errors.root.message}
+        />
+      )}
 
-          {form.formState.errors.root?.message && (
-            <ErrorState
-              compact
-              title="Sign in failed"
-              message={form.formState.errors.root.message}
-            />
-          )}
-
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormInput
-                control={form.control}
-                name="email"
-                type="email"
-                label="Email"
-                placeholder="you@example.com"
-                leftIcon={<Mail className="size-4" />}
-              />
-              <FormPassword control={form.control} name="password" label="Password" />
-              <Button type="submit" disabled={loading} className="w-full">
-                {loading ? "Signing in…" : "Continue"}
-              </Button>
-            </form>
-          </Form>
-
-          <p className="text-xs text-[#686868] text-center">
-            New to the network?{" "}
-            <Link
-              href="/register"
-              className="text-[#ededed] underline-offset-4 hover:underline"
-            >
-              Create an account
-            </Link>
-          </p>
-        </div>
-      </main>
-    </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormInput
+            control={form.control}
+            name="email"
+            type="email"
+            label="Email"
+            placeholder="you@st.ug.edu.gh"
+            leftIcon={<Mail className="size-4" />}
+          />
+          <FormPassword control={form.control} name="password" label="Password" />
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? "Signing in…" : "Enter Legon"}
+          </Button>
+        </form>
+      </Form>
+    </AuthStage>
   );
 }

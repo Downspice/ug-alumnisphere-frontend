@@ -4,14 +4,14 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GraduationCap, Mail, UserRound } from "lucide-react";
-import { PublicHeader } from "@/components/layout/public-header";
-import { BrandMark } from "@/components/brand/brand-mark";
+import { AuthStage } from "@/components/layout/auth-stage";
 import { useAuth } from "@/components/providers/auth-provider";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/forms/form-input";
 import { FormPassword } from "@/components/forms/form-password";
 import { FormRadioGroup } from "@/components/forms/form-radio-group";
 import { Button } from "@/components/ui/button";
+import { ErrorState } from "@/components/ui/error-state";
 import { registerSchema, type RegisterFormValues } from "@/lib/validations/auth";
 
 export default function RegisterPage() {
@@ -37,87 +37,86 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
-      <div className="dusk-violet-wash fixed top-0 inset-x-0 z-50 pointer-events-none" />
-      <PublicHeader />
-      <main className="max-w-[560px] mx-auto px-4 py-12">
-        <div className="frosted-glass-card p-6 sm:p-8 space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <BrandMark href="/" size="md" />
-          <div className="space-y-2">
-            <h1 className="text-2xl font-medium tracking-tight">Join AlumniSphere</h1>
-            <p className="text-sm text-[#c2c2c2]">
-              Alumni can later submit verification. Students join the same network with a
-              student role. Administrators are provisioned separately.
-            </p>
-          </div>
+    <AuthStage
+      wide
+      kicker="Join the network"
+      title="Become part of Legon"
+      description="Alumni can later submit verification. Students join the same network. Administrators are provisioned by the University — you cannot self-register as one."
+      footer={
+        <p className="text-xs text-[#686868] text-center">
+          Already on AlumniSphere?{" "}
+          <Link
+            href="/login"
+            className="text-[#ba8f4a] underline-offset-4 hover:underline"
+          >
+            Sign in
+          </Link>
+        </p>
+      }
+    >
+      {form.formState.errors.root?.message && (
+        <ErrorState
+          compact
+          title="Registration failed"
+          message={form.formState.errors.root.message}
+        />
+      )}
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormInput
-                control={form.control}
-                name="name"
-                label="Full name"
-                placeholder="Ama Boateng"
-                leftIcon={<UserRound className="size-4" />}
-              />
-              <FormInput
-                control={form.control}
-                name="email"
-                type="email"
-                label="Email"
-                placeholder="you@example.com"
-                leftIcon={<Mail className="size-4" />}
-              />
-              <FormRadioGroup
-                control={form.control}
-                name="role"
-                label="I am joining as"
-                variant="cards"
-                gridCols={2}
-                options={[
-                  {
-                    value: "alumni",
-                    label: "Alumni",
-                    description: "Graduate of the University of Ghana",
-                    icon: <GraduationCap className="size-3.5" />,
-                  },
-                  {
-                    value: "student",
-                    label: "Student",
-                    description: "Currently enrolled at UG",
-                    icon: <UserRound className="size-3.5" />,
-                  },
-                ]}
-              />
-              <FormPassword
-                control={form.control}
-                name="password"
-                label="Password"
-                description="At least 8 characters, with a letter and a number"
-              />
-              <FormPassword
-                control={form.control}
-                name="confirmPassword"
-                label="Confirm password"
-                showLockIcon={false}
-              />
-              <Button type="submit" disabled={loading} className="w-full">
-                {loading ? "Creating account…" : "Create account"}
-              </Button>
-            </form>
-          </Form>
-
-          <p className="text-xs text-[#686868] text-center">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="text-[#ededed] underline-offset-4 hover:underline"
-            >
-              Sign in
-            </Link>
-          </p>
-        </div>
-      </main>
-    </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormInput
+            control={form.control}
+            name="name"
+            label="Full name"
+            placeholder="Ama Boateng"
+            leftIcon={<UserRound className="size-4" />}
+          />
+          <FormInput
+            control={form.control}
+            name="email"
+            type="email"
+            label="Email"
+            placeholder="you@st.ug.edu.gh"
+            leftIcon={<Mail className="size-4" />}
+          />
+          <FormRadioGroup
+            control={form.control}
+            name="role"
+            label="I am joining as"
+            variant="cards"
+            gridCols={2}
+            options={[
+              {
+                value: "alumni",
+                label: "Alumni",
+                description: "Graduate of the University of Ghana",
+                icon: <GraduationCap className="size-3.5" />,
+              },
+              {
+                value: "student",
+                label: "Student",
+                description: "Currently enrolled at UG",
+                icon: <UserRound className="size-3.5" />,
+              },
+            ]}
+          />
+          <FormPassword
+            control={form.control}
+            name="password"
+            label="Password"
+            description="At least 8 characters, with a letter and a number"
+          />
+          <FormPassword
+            control={form.control}
+            name="confirmPassword"
+            label="Confirm password"
+            showLockIcon={false}
+          />
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? "Creating account…" : "Join AlumniSphere"}
+          </Button>
+        </form>
+      </Form>
+    </AuthStage>
   );
 }
